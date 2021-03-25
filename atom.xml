@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://espumita.org/"/>
-  <updated>2021-03-25T23:43:04.584Z</updated>
+  <updated>2021-03-25T23:51:28.474Z</updated>
   <id>http://espumita.org/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>How to debug https traces</title>
+    <title>How to debug HTTPS traffic</title>
     <link href="http://espumita.org/2021/03/25/debug-https/"/>
     <id>http://espumita.org/2021/03/25/debug-https/</id>
     <published>2021-03-25T20:28:21.000Z</published>
-    <updated>2021-03-25T23:43:04.584Z</updated>
+    <updated>2021-03-25T23:51:28.474Z</updated>
     
     <summary type="html">
     
