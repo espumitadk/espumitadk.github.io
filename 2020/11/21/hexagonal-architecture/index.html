@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="What is this architecture about, and what&#96;s the difference from others more traditional like MVC? If we go back to 2005, according to Alistair Cockburn, the creator of this term, this architecture tri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Software Architectures examples: Hexagonal Architecture">
+<meta property="og:url" content="http://espumita.org/2020/11/21/hexagonal-architecture/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="What is this architecture about, and what&#96;s the difference from others more traditional like MVC? If we go back to 2005, according to Alistair Cockburn, the creator of this term, this architecture tri">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/ASLDLKHLAJSDJLLMDLJMD2KMK2JKSNS.png">
+<meta property="og:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/1lkwskskxkjkk32kk23l2lvek2ckkwed.JPG">
+<meta property="og:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/312LIKH3QJL2WJLKLKSKLSLK2KLALAL.png">
+<meta property="og:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/kjw3rjk324djkdl23l232kd2lkd3k2rktl23l.JPG">
+<meta property="og:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/kjjksadxjlkaslkjdlaskdlkdlk2kllkklak.png">
+<meta property="article:published_time" content="2020-11-21T17:41:45.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.877Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/11/21/hexagonal-architecture/ASLDLKHLAJSDJLLMDLJMD2KMK2JKSNS.png">
+
+<link rel="canonical" href="http://espumita.org/2020/11/21/hexagonal-architecture/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Software Architectures examples: Hexagonal Architecture | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/11/21/hexagonal-architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Software Architectures examples: Hexagonal Architecture
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-21 17:41:45" itemprop="dateCreated datePublished" datetime="2020-11-21T17:41:45+00:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>What is this architecture about, and what`s the difference from others more traditional like <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener">MVC</a>?</p>
+<p>If we go back to 2005, according to <a href="https://alistair.cockburn.us/hexagonal-architecture/" target="_blank" rel="noopener">Alistair Cockburn</a>, the creator of this term, this architecture tries to solve the problem of <em>Avoid infiltration of business logic into the user interface code</em>.</p>
+<p>The most important thing of this architecture is to <strong>protect</strong> the most valuable code of any application, <strong>the domain</strong>. </p>
+<img src="/2020/11/21/hexagonal-architecture/ASLDLKHLAJSDJLLMDLJMD2KMK2JKSNS.png" class="">
+
+<a id="more"></a>
+
+<p>So, we can summarize it as an <strong>isolation</strong> strategy of the <strong>domain</strong>. And isolated code can be <strong>tested better</strong>.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>Following <a href="https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/Ports%20%20%26%20Adapters%20-%20Hexagonal" target="_blank" rel="noopener">this</a> aspnetcore example, consider the next code distribution:</p>
+<img src="/2020/11/21/hexagonal-architecture/1lkwskskxkjkk32kk23l2lvek2ckkwed.JPG" class="">
+
+<p>As you can see, we already got a music application. In this case, we got an API called <em>MyMusic.Api</em>. We had decided for this example to separate the code in <strong>folders</strong> according to each <strong>layer</strong>:</p>
+<ul>
+<li><strong>Domain</strong> with the domain <strong>models</strong> <em>PlayList</em> and <em>Track</em>. </li>
+<li><strong>Application.Core</strong> with the application <a href="https://en.wikipedia.org/wiki/Use_case" target="_blank" rel="noopener">use cases</a>, models as <strong>services</strong>. This layer tells us <strong>what the application do</strong>, in this case: <em>GetPlayList</em>, <em>CreatePlayList</em>, <em>AddTrackToPlayList</em>, etc. Also we have the <strong>ports</strong>, wich are the <strong>contracts</strong> wich describe the behaviour that the application need.</li>
+<li><strong>Adapters</strong> are the <strong>infrasctucture implementations</strong> of the contracts, for example to read/write from a database like <em>PLayListPostgreSQLAdapter</em> or just call another api using http like <em>TraksSpotifyApiAdapter</em>.</li>
+</ul>
+<h2 id="Layers-dependency-flow"><a href="#Layers-dependency-flow" class="headerlink" title="Layers dependency flow"></a>Layers dependency flow</h2><p>To maintain this isolation, the layers of the architecture must follow a <strong>directional dependency flow</strong>: <em>Inside layers should not know anything about outside layers</em>.</p>
+<img src="/2020/11/21/hexagonal-architecture/312LIKH3QJL2WJLKLKSKLSLK2KLALAL.png" class="">
+
+<p>As you can see, if we look at the project dependency tree, we can confirm this dependency flow:</p>
+<img src="/2020/11/21/hexagonal-architecture/kjw3rjk324djkdl23l232kd2lkd3k2rktl23l.JPG" class="">
+
+<p>Working like this have some benefits:</p>
+<ul>
+<li>The <strong>domain</strong> is <strong>isolated</strong>, so rules and models <strong>are not affected</strong> from <strong>infrastructure</strong> decisions.</li>
+<li>The code is more easily <strong>testable</strong>. For example, the application layer can be tested separately without  infrastructure dependencies.</li>
+<li><strong>Responsibilities are separated</strong>. Now each layer and code component follows the <strong>Single Responsibility Principle</strong> (<a href="https://en.wikipedia.org/wiki/Single-responsibility_principle" target="_blank" rel="noopener">SRP</a>), This increases code reusability.</li>
+<li>The code is more <strong>ready</strong> <strong>to change</strong> and <strong>to grow</strong>, following the <strong>Open/Closed Principle</strong> (<a href="https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle" target="_blank" rel="noopener">OCP</a>). For example, if you want to change any infrastructure implementation, you only need to follow a defined contract, without affecting the whole application.</li>
+</ul>
+<h1 id="How-is-this-possible"><a href="#How-is-this-possible" class="headerlink" title="How is this possible?"></a>How is this possible?</h1><p>This awesome dependency graph is possible thanks to the <strong>Dependency Inversion Principle</strong> (<a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle" target="_blank" rel="noopener">DIP</a>).</p>
+<ul>
+<li><em>High-level modules should not depend on low-level modules. Both should depend on abstractions</em></li>
+</ul>
+<p>In this case, we reach this using the <em>ports</em> abstraction, making application code <strong>only depends</strong> on an <strong>interface</strong> for example <em>PlayListPersistencePort</em>:</p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">PlayListPersistencePort</span> &#123;</span><br><span class="line">    <span class="function">PlayList <span class="title">GetPlayList</span>(<span class="params"><span class="keyword">string</span> playlistId</span>)</span>;</span><br><span class="line">    <span class="function">List&lt;PlayList&gt; <span class="title">GetAllPlayList</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Persist</span>(<span class="params">PlayList playList</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><em>Abstractions should not depend on details. Details (concrete implementations) should depend on abstractions</em> </li>
+</ul>
+<p>We reach this making adapters implement interfaces. This interfaces are just interfaces with models objects in signatures. So, all the <strong>implementations details stay in</strong> the <strong>adapters</strong>. In this case <em>PLayListPostgreSQLAdapter</em> implements <em>PlayListPersistencePort</em>: </p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PLayListPostgreSQLAdapter</span> : <span class="title">PlayListPersistencePort</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> PlayList <span class="title">GetPlayList</span>(<span class="params"><span class="keyword">string</span> playlistId</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//This should be read from PostgreSQL DB</span></span><br><span class="line">        <span class="keyword">var</span> trackList = <span class="keyword">new</span> List&lt;Track&gt; &#123;</span><br><span class="line">            <span class="keyword">new</span> Track(<span class="string">"D7D0BF31-CC98-44EA-B983-C8C37FA95A59"</span>, <span class="string">"Hakujitsu"</span>, <span class="string">"King Gnu"</span>,<span class="number">261000</span>),</span><br><span class="line">            <span class="keyword">new</span> Track(<span class="string">"560D59E0-0487-4DF5-90C6-95C5594F244A"</span>, <span class="string">"Era - Ameno (The Scientist Remix)"</span>, <span class="string">"The Scientist DJ"</span>, <span class="number">202200</span>)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PlayList(playlistId, <span class="string">"Example PlayList"</span>, PlayListStatus.Active, trackList, <span class="string">"https://imageUrl.com"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;PlayList&gt; <span class="title">GetAllPlayList</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> trackList = <span class="keyword">new</span> List&lt;Track&gt; &#123;</span><br><span class="line">            <span class="keyword">new</span> Track(<span class="string">"D7D0BF31-CC98-44EA-B983-C8C37FA95A59"</span>, <span class="string">"Hakujitsu"</span>, <span class="string">"King Gnu"</span>,<span class="number">261000</span>),</span><br><span class="line">            <span class="keyword">new</span> Track(<span class="string">"560D59E0-0487-4DF5-90C6-95C5594F244A"</span>, <span class="string">"Era - Ameno (The Scientist Remix)"</span>, <span class="string">"The Scientist DJ"</span>, <span class="number">202200</span>)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;PlayList&gt; &#123;</span><br><span class="line">            <span class="keyword">new</span> PlayList(<span class="string">"B6AED672-2663-49BA-85B0-0DDB02D59C1B"</span>, <span class="string">"Example PlayList"</span>, PlayListStatus.Active, <span class="keyword">new</span> List&lt;Track&gt;(), <span class="string">"https://imageUrl.com"</span>),</span><br><span class="line">            <span class="keyword">new</span> PlayList(<span class="string">"916A3E10-7AF2-4D54-BD78-48364F783F78"</span>, <span class="string">"Example PlayList 2"</span>, PlayListStatus.Active, trackList, <span class="string">"https://imageUrl2.com"</span>),</span><br><span class="line">            <span class="keyword">new</span> PlayList(<span class="string">"BF2D7788-D1FE-4772-B362-6D89686D895A"</span>, <span class="string">"Example PlayList 3"</span>, PlayListStatus.Archived, <span class="keyword">new</span> List&lt;Track&gt;(), <span class="string">"https://imageUrl3.com"</span>),</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Persist</span>(<span class="params">PlayList playList</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//This should persist in PostgreSQL DB</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Code-dependency-flow"><a href="#Code-dependency-flow" class="headerlink" title="Code dependency flow"></a>Code dependency flow</h1><p>To understand how <strong>powerfull</strong> this approach can be, we need to understand <strong>how</strong> code dependencies <strong>are connected</strong>. If we pay atention to layer connections, we can notice that code dependency flow can be represented like this:</p>
+<img src="/2020/11/21/hexagonal-architecture/kjjksadxjlkaslkjdlaskdlkdlk2kllkklak.png" class="">
+
+<p>Controller: <em>PlaylistsController</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpPost</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">CreatePlayList</span>(<span class="params">[FromBody]CreatePlayListRequest request</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> service = playListServiceCreator.CreateCreatePlayListService();</span><br><span class="line">    <span class="keyword">var</span> result = service.Execute(request.PlayListName);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.BuildResponseFrom(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Service: <em>CreatePlayListService</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CreatePlayListService</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> UniqueIdentifiersPort uniqueIdentifiers;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> PlayListPersistencePort playListPersistence;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> PlayListNotifierPort playListNotifier;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CreatePlayListService</span>(<span class="params">UniqueIdentifiersPort uniqueIdentifiers,PlayListPersistencePort playListPersistence, PlayListNotifierPort playListNotifier</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.uniqueIdentifiers = uniqueIdentifiers;</span><br><span class="line">        <span class="keyword">this</span>.playListPersistence = playListPersistence;</span><br><span class="line">        <span class="keyword">this</span>.playListNotifier = playListNotifier;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Either&lt;DomainError, ServiceResponse&gt; <span class="title">Execute</span>(<span class="params"><span class="keyword">string</span> playListName</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> newPlayListId = uniqueIdentifiers.GetNewUniqueIdentifier();</span><br><span class="line">        <span class="keyword">var</span> playList = PlayList.Create(newPlayListId, playListName);</span><br><span class="line">        playListPersistence.Persist(playList);</span><br><span class="line">        playListNotifier.NotifyPlayListHasBeenCreated(playList.Id, playListName);</span><br><span class="line">        <span class="keyword">return</span> ServiceResponse.Success;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Domain: <em>PlayList</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> PlayList <span class="title">Create</span>(<span class="params"><span class="keyword">string</span> id, <span class="keyword">string</span> name</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> PlayList(id, name, PlayListStatus.Active, <span class="keyword">new</span> List&lt;Track&gt;(), <span class="literal">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Did you notice the <strong>magic</strong>? Well, let me explain a little about what is going on here:</p>
+<p><em>PlayListPersistencePort</em> It`s just an <strong>abstraction</strong>, so <em>playListPersistence.Persist(playList)</em> application layer is saying “<em>I want to persist this playlist</em>“, but it <strong>doesn’t care how</strong>.</p>
+<p>This is <strong>Responsibility</strong> for the <strong>infrastructure</strong>.</p>
+<p>If we go back to the controller we can see <em>playListServiceCreator.CreateCreatePlayListService()</em> method call. With is the infrastructure part of code that is really caring about how data will be persisted.</p>
+<p><em>PlayListServiceCreator</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> CreatePlayListService <span class="title">CreateCreatePlayListService</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> pLayListDatabaseAdapter = <span class="keyword">new</span> PLayListPostgreSQLAdapter();</span><br><span class="line">    <span class="keyword">var</span> musicCloudApiHttpAdapter = <span class="keyword">new</span> PlayListSpotifyApiAdapter();</span><br><span class="line">    <span class="keyword">var</span> uniqueIdentifiersInMemoryAdapter = <span class="keyword">new</span> UniqueIdentifiersInMemoryAdapter();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> CreatePlayListService(uniqueIdentifiersInMemoryAdapter, pLayListDatabaseAdapter, musicCloudApiHttpAdapter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This class is responsible to <strong>inject</strong> a concrete implementation, <strong>adapter</strong>, in this case <em>PLayListPostgreSQLAdapter</em>.</p>
+<p>This tecknike is also knowed as <strong>dependency inyection</strong> (<a href="https://en.wikipedia.org/wiki/Dependency_injection" target="_blank" rel="noopener">DI</a>).</p>
+<h1 id="And-what-about-testing"><a href="#And-what-about-testing" class="headerlink" title="And.. what about testing?"></a>And.. what about testing?</h1><p>Here another big improvement comes in to play, because now application layer and domain can be <strong>tested alone</strong>.</p>
+<p>You do not need any infrastructure code in your application layer tests like test databases. Now we have <strong>fastest test</strong> covering the core rules.</p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line">[<span class="meta">Test</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create_a_play_list</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> aPlaylistId = APlaylist.Id;</span><br><span class="line">    <span class="keyword">var</span> aPlaylistName = APlaylist.Name;</span><br><span class="line">    uniqueIdentifiers.GetNewUniqueIdentifier().Returns(aPlaylistId);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> result = createPlayListService.Execute(aPlaylistName);</span><br><span class="line">    </span><br><span class="line">    result.IsRight.Should().BeTrue();</span><br><span class="line">    VerifyPlayListHasBeenPersistedWith(aPlaylistId, aPlaylistName, PlayListStatus.Active);</span><br><span class="line">    playListNotifierPort.Received().NotifyPlayListHasBeenCreated(aPlaylistId, aPlaylistName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>For example, now you can check that paramenters that are sending to your port are correct. </p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">VerifyPlayListHasBeenPersistedWith</span>(<span class="params"><span class="keyword">string</span> aPlaylistId, <span class="keyword">string</span> aPlaylistName, PlayListStatus status</span>)</span> &#123;</span><br><span class="line">    playListPersistence.Received().Persist(Arg.Is&lt;PlayList&gt;(playlist =&gt;</span><br><span class="line">        playlist.Id.Equals(aPlaylistId)</span><br><span class="line">        &amp;&amp; playlist.Name.Equals(aPlaylistName)</span><br><span class="line">        &amp;&amp; playlist.Status.Equals(status)</span><br><span class="line">    ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>On the other hand, now you can let your <strong>adapters</strong> implementations <strong>tests</strong> to only <strong>cover infrastucture</strong> logic and not domain rules.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/20/be-the-worst/" rel="prev" title="Be the worst != Feel the worst">
+      <i class="fa fa-chevron-left"></i> Be the worst != Feel the worst
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/30/cqrs/" rel="next" title="Software Architectures examples: CQRS">
+      Software Architectures examples: CQRS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/11/21/hexagonal-architecture/";
+    this.page.identifier = "2020/11/21/hexagonal-architecture/";
+    this.page.title = "Software Architectures examples: Hexagonal Architecture";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

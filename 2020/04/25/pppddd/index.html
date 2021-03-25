@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="This book has the responses to many questions I asked myself during the last year of exploring DDD. My team and I had te opportunity to discuss and apply many of the concepts and patterns and dynami">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Book notes: Patterns, Principles, and Practices of Domain-Driven Design">
+<meta property="og:url" content="http://espumita.org/2020/04/25/pppddd/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="This book has the responses to many questions I asked myself during the last year of exploring DDD. My team and I had te opportunity to discuss and apply many of the concepts and patterns and dynami">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/04/25/pppddd/h23h424bj234j32h3jj.png">
+<meta property="article:published_time" content="2020-04-25T08:10:44.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.910Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/04/25/pppddd/h23h424bj234j32h3jj.png">
+
+<link rel="canonical" href="http://espumita.org/2020/04/25/pppddd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Book notes: Patterns, Principles, and Practices of Domain-Driven Design | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/04/25/pppddd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Book notes: Patterns, Principles, and Practices of Domain-Driven Design
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-25 09:10:44" itemprop="dateCreated datePublished" datetime="2020-04-25T09:10:44+01:00">2020-04-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2020/04/25/pppddd/h23h424bj234j32h3jj.png" class="">
+
+<p>This book has the responses to many questions I asked myself during the last year of exploring DDD. My team and I had te opportunity to discuss and apply many of the concepts and patterns and dynamics of this book in our recent projects. Definitely, give it a try is a recommended experience.</p>
+<a id="more"></a>
+
+<h1 id="What-is-Domain-Driven-Design"><a href="#What-is-Domain-Driven-Design" class="headerlink" title="What is Domain Driven Design?"></a>What is Domain Driven Design?</h1><p>It’s a development philosophy, defined by Eric Evans, for managing the construction and maintenance of complex software problem domains.<br>The keys to this development style are:</p>
+<ul>
+<li>Divide and conquer, this approach is based on the <strong>decomposition</strong> of the problem, and find ways to <strong>focus</strong> the resources in the more important parts, the <strong>core</strong> parts of the domain.</li>
+<li><strong>Collaboration</strong>, to create an appropriate environment to solve complex problem domains, it’s necessary a good collaboration between <strong>teams</strong> and <strong>domain experts</strong>.</li>
+<li>Keep it <strong>simple</strong>. Keep the solutions as <strong>boring</strong> as you can. Enforce simply relations between contexts and entities. Make <strong>pragmatic</strong> use of patterns.</li>
+</ul>
+<p>You can find two parts in DDD: Strategic and Tactical.</p>
+<h1 id="Strategic-The-problem-space"><a href="#Strategic-The-problem-space" class="headerlink" title="Strategic: The problem space"></a>Strategic: The problem space</h1><p>This is the most important part of DDD. Here you have to focus on the <strong>problem domain</strong>. The idea here is to explore the domain, and to reveal what is important, the <strong>core</strong>. To find this, we have to create a very well collaboration between domain experts and the Team.<br>In this collaboration, we find the <strong>ubiquitous language</strong>, as a common language between domain experts and developers teams. This will drive the modeling of the solutions. These models, its boundaries, and their relationship are discovered and evolved through this collaboration.</p>
+<p>Some dynamics to explore the problem space, and work on the solution modeling are:</p>
+<h2 id="For-new-domains-knowledge-crunching"><a href="#For-new-domains-knowledge-crunching" class="headerlink" title="For new domains knowledge crunching:"></a>For new domains knowledge crunching:</h2><ul>
+<li>Focus on interesting conversations.</li>
+<li>Start from the use cases.</li>
+<li>Ask powerful questions.</li>
+<li>Synergy with domain experts, analysts, etc.</li>
+<li>Discus using diagrams.</li>
+<li>Use class responsibility collaboration (CRC) cards.</li>
+<li>Do not put names to concepts in the model when there is too soon.</li>
+<li>BDD.</li>
+<li>Rapid prototyping.</li>
+<li>Look on existing paper-based systems.</li>
+</ul>
+<h2 id="For-existing-models"><a href="#For-existing-models" class="headerlink" title="For existing models:"></a>For existing models:</h2><ul>
+<li>Understand the intents, find motivations behind requirements. Find real needs, not solutions or suggestions.</li>
+<li>Event storming.</li>
+<li>Impact mapping.</li>
+<li>Business model canvas.</li>
+<li>Deliberate discovery, devote time to learning about areas of the problem domain that you are ignorant about.</li>
+<li>Model exploration Whirlpool.</li>
+</ul>
+<h2 id="To-distill-a-problem-domain-and-focus-on-the-core-domain"><a href="#To-distill-a-problem-domain-and-focus-on-the-core-domain" class="headerlink" title="To distill a problem domain and focus on the core domain:"></a>To distill a problem domain and focus on the core domain:</h2><ul>
+<li>Decompose the problem domain into subdomains, according to the capability of the business process and functionality of the system.</li>
+<li>Identify the core domains: What are the parts of the product that will make it a success? Why are these parts of the system important? And why can’t they be bought off the shelf? In other words, what makes your system worth building? (competitive advantage), set the efforts here.</li>
+<li>Treat the core domains as a product.</li>
+<li>Identify the generic domains. Not core but the business can’t operate without them. Not focus efforts on them.</li>
+<li>Identify the supporting domains. Not defining what your system does, help to support your core domains. They need to work but do not require your prolonged attention. As with the generic domains, if possible, you should look to buy off‐the‐shelf solutions. Maybe, can be a manual process.</li>
+<li>Clean Boundaries over perfect models.</li>
+<li>Build subdomains for replacement over build subdomains for reuse.</li>
+<li>If there is any core domain, do not apply DDD.</li>
+</ul>
+<h1 id="Solution-space-Domain-Model"><a href="#Solution-space-Domain-Model" class="headerlink" title="Solution space: Domain Model"></a>Solution space: Domain Model</h1><p>Traditional software processes keep the code model and analysis model separate, which leads to an implementation that rarely resembles the blueprint due to new insight and constraints of the technical solution. DDD acknowledges the need to produce a <strong>single model</strong> that serves as an <strong>analysis model</strong> for business people to understand and which is <strong>implemented</strong> using the same terminology and concepts <strong>in code</strong>.</p>
+<p>It is formed first as an analysis model through the collaboration between a development team and business experts during knowledge‐crunching sessions. It represents <strong>a view</strong>, not the reality, of the <strong>problem domain</strong> designed only to meet the needs of business use cases. It is described in a <strong>shared language</strong> that the team speaks and the <strong>diagrams</strong> that the team sketches. When it is expressed as a <strong>code</strong> implementation, it is bound to the analysis model through the use of the <strong>shared language</strong>. Its usefulness comes from its ability to represent complex logic and polices in the domain to solve business use cases. The model contains <strong>only</strong> what is <strong>relevant</strong> to solve problems in the context of the application being created. It needs to <strong>constantly evolve</strong> with the business to <strong>keep</strong> itself <strong>useful</strong> and <strong>valid</strong>.</p>
+<ul>
+<li>The domain is the problem, it is the reality of the situation.</li>
+<li>The domain model is an abstraction of the problem domain, expressed as code implementation that represents a view of the problem. Not reality.</li>
+<li>Build a domain model using the ubiquitous language, collaboration contract between domain experts and teams.</li>
+<li>Model only what is relevant.</li>
+<li>Focus on behavior, not in implementations.</li>
+<li>Rebuild many times the domain model, probably you need to create it 3 times to get a good model.</li>
+</ul>
+<h1 id="Domain-model-implementation"><a href="#Domain-model-implementation" class="headerlink" title="Domain model implementation"></a>Domain model implementation</h1><p>Domain Model is an implementation detail of the domain layer.Implementation patterns:</p>
+<ul>
+<li>Domain Model (pattern).</li>
+<li>Transaction script.</li>
+<li>Table module.</li>
+<li>Active record.</li>
+<li>Anemic Domain Model.</li>
+</ul>
+<p>Keep in mind:</p>
+<ul>
+<li>Split models based on subdomains.</li>
+<li>Terminology and business capabilities define the bounded contexts limits.</li>
+<li>Defined around language and aligned to business capabilities.</li>
+<li>Contexts should be build around teams.</li>
+<li>Bounded context boundaries can be influenced by terminology ambiguity.</li>
+<li>Subdomains should be alignment to business capabilities.</li>
+<li>Team organization and physical location.</li>
+<li>Legacy codebase.</li>
+<li>Third-party integration.</li>
+</ul>
+<p>Relationships between bounded contexts:</p>
+<ul>
+<li>Context Map, the big picture of relations between contexts Easy way to identify the core parts of the system, ownership and responsibility. Reveals areas of consufion. Adds many value to onboardings.</li>
+<li>Anticorruption layer.</li>
+<li>Shared kernel.</li>
+<li>Open host service.</li>
+<li>Upstream/Downstream Relationships.</li>
+<li>Customer-supplier.</li>
+<li>Conformist.</li>
+</ul>
+<h1 id="Application-architecture"><a href="#Application-architecture" class="headerlink" title="Application architecture"></a>Application architecture</h1><p><strong>Isolate</strong> domain model from technical complexities like: persistence, presentation, etc. <strong>Separation</strong> between domain, application service and infrastructural layers:</p>
+<ul>
+<li>Dependency inversion. </li>
+<li>Comunication flow between layers from outside to inside.</li>
+</ul>
+<p>Examples: Hexagonal architecture, Onion architecture, Clean architecture.</p>
+<p>keep in mind:</p>
+<ul>
+<li><p>Bounded contexts <strong>do not share</strong> the data model and the domain model.</p>
+</li>
+<li><p>The scope of architecture: If there are many bounded contexts in one Application, There is one architecture in each bounded context. Its possible to find different pattern in each domain layer.</p>
+</li>
+</ul>
+<h1 id="Common-problems-for-teams-starting-out-with-DDD"><a href="#Common-problems-for-teams-starting-out-with-DDD" class="headerlink" title="Common problems for teams starting out with DDD"></a>Common problems for teams starting out with DDD</h1><ul>
+<li>Overemphasizing the importance of tactical patterns.</li>
+<li>Same architecture for all bounded contexts.</li>
+<li>Striving for tactical pattern perfection.</li>
+<li>Mistaking the building blocks for the value of DDD.</li>
+<li>Focusing on Code Rather Than the principles of DDD.</li>
+<li>Missing the real value of DDD, collaboration, communication, and context.</li>
+<li>Producing a Big Ball of Mud Due to Underestimating the importance of context.</li>
+<li>Causing ambiguity and Misinterpretations by Failing to Create a UL.</li>
+<li>Designing Technical-Focused SOlution Due to a Lack Collaboration.</li>
+<li>Spending too much time on what’s not important.</li>
+<li>Making simple problems complex.</li>
+<li>Applying DDD Principles to a Trivial Domain with Little Business Expectation.</li>
+<li>Disregarding CRUD is an Antipattern.</li>
+<li>Using the domain model pattern for every Bounded Context.</li>
+<li>Ask yourself: Is it worth this extra complexity?.</li>
+<li>Underestimating the cost of applying DDD.</li>
+<li>Trying to succeed without a motivated focused team.</li>
+<li>Attempting collaboration when a domain expert is not behind the project.</li>
+<li>Learning in a noniterative development methodology.</li>
+<li>Applying DDD to Every Problem.</li>
+<li>Sacrificing pragmatism for needless purity.</li>
+<li>The wasted effort by seeking validation.</li>
+<li>Always Striving for Beautiful Code.</li>
+<li>DDD is about providing value.</li>
+</ul>
+<h1 id="Selling-DDD"><a href="#Selling-DDD" class="headerlink" title="Selling DDD"></a>Selling DDD</h1><ul>
+<li>Is not a silver bullet.</li>
+<li>Won’t solve all your problems.</li>
+<li>Powerful and extremely philosophy when used in the correct.</li>
+</ul>
+<p>keep in mind that is required:</p>
+<ul>
+<li>A skilled, motivated, passionate team is eager to learn.</li>
+<li>A nontrivial problem domain that is important to your business.</li>
+<li>Access to domain experts who are aligned to the vision of the project.</li>
+<li>An iterative development methodology.</li>
+</ul>
+<h1 id="Applying-DDD"><a href="#Applying-DDD" class="headerlink" title="Applying DDD"></a>Applying DDD</h1><ul>
+<li>Replay your model.</li>
+<li>Making implicit explicit.</li>
+<li>Keep the big picture in mind, and the value in the focus.</li>
+</ul>
+<h1 id="Communicating-between-bounded-contexts"><a href="#Communicating-between-bounded-contexts" class="headerlink" title="Communicating between bounded contexts"></a>Communicating between bounded contexts</h1><ul>
+<li>Bounded contexts should be autonomous.</li>
+<li>You can start make separation using: namespaces, projects and solutions.</li>
+<li>Physical boundaries enforce clean models. Separation of persistence, code repository, components of deployment etc.</li>
+</ul>
+<h2 id="Legacy-systems-integration"><a href="#Legacy-systems-integration" class="headerlink" title="Legacy systems integration"></a>Legacy systems integration</h2><ul>
+<li>Bubble context.</li>
+<li>Legacy systems as services.</li>
+</ul>
+<h2 id="Distributed-Bounded-contexts"><a href="#Distributed-Bounded-contexts" class="headerlink" title="Distributed Bounded contexts"></a>Distributed Bounded contexts</h2><ul>
+<li>Database Integration.</li>
+<li>Flat file integration.</li>
+<li>RPC, this is adds more cost to scale, and resilence. Its the most tight coupling.</li>
+<li>Messaging.</li>
+<li>REST.</li>
+</ul>
+<p>Keep in mind:</p>
+<ul>
+<li>Favour eventual consistency over distributed transactions.</li>
+<li>Event-driven reactive DDD: more resilence, less logical, and temporal coupling, best easy to scale. But adds much more complexity.</li>
+<li>RPC Still relevant approach, but depends on the context.</li>
+<li>SOA and Reactive DDD makes more scalable, fault-tolerant distributed systems.</li>
+<li>Applying SOA means view your bounded contexts as SOA Services.</li>
+<li>Decompose bounded context into business components, based on business responsibilities.</li>
+<li>Decompose business components into components. Applying the single responsibility principle.</li>
+<li>Architecting with components makes that your business can invest in further resources, infrastructure, and better strategies only on necessary components.</li>
+<li>This components a.k.a. autonomous components (Udi Dahan), or microservices.</li>
+<li>Messaging patterns like: messaging gateway, messaging bridge can be found <a href="https://www.enterpriseintegrationpatterns.com/" target="_blank" rel="noopener">here</a> or in the book.</li>
+<li>Each bounded context can store the data they need.</li>
+<li>Messaging should include message versioning.</li>
+<li>RPC works over HTTP, Clasic RPC evolved to SOAP and REST.</li>
+<li>Important to well understand the values behind REST: Resources, Hypermeddia, Stateless.</li>
+</ul>
+<h1 id="Tactical-The-solution-space"><a href="#Tactical-The-solution-space" class="headerlink" title="Tactical: The solution space"></a>Tactical: The solution space</h1><p>The objective in the solution space is to create the domain model.</p>
+<h1 id="Domain-Model-Building-Blocks"><a href="#Domain-Model-Building-Blocks" class="headerlink" title="Domain Model Building Blocks"></a>Domain Model Building Blocks</h1><p>Model:</p>
+<ul>
+<li>Is not the real world.</li>
+<li>Is not the data model.</li>
+<li>Its the domain behaviour.</li>
+</ul>
+<h2 id="Value-Objects"><a href="#Value-Objects" class="headerlink" title="Value Objects"></a>Value Objects</h2><ul>
+<li>Value equality.</li>
+<li>Context-Dependent.</li>
+<li>Behavior-Rich.</li>
+<li>Cohesive.</li>
+<li>Inmutable.</li>
+<li>Self-Validating.</li>
+<li>Identity-less.</li>
+</ul>
+<h2 id="Entities"><a href="#Entities" class="headerlink" title="Entities"></a>Entities</h2><ul>
+<li>Identity equality.</li>
+<li>Invariants validation.</li>
+<li>Context-Dependent.</li>
+<li>Behavior oriented.</li>
+</ul>
+<h2 id="Domain-Services"><a href="#Domain-Services" class="headerlink" title="Domain Services"></a>Domain Services</h2><ul>
+<li>Stateless.</li>
+<li>Process Oriented.</li>
+<li>Avoid anemic domain models when overusing them.</li>
+</ul>
+<h2 id="Modules"><a href="#Modules" class="headerlink" title="Modules"></a>Modules</h2><ul>
+<li>You can take into account the modules and namespaces when you are designing this models. And the relations between them.</li>
+</ul>
+<p>Lifecycle:</p>
+<h2 id="Aggregates"><a href="#Aggregates" class="headerlink" title="Aggregates"></a>Aggregates</h2><ul>
+<li>Consistency boundary.</li>
+<li>Build around invariants, not relationships.</li>
+<li>One-Way relationships in modeling.</li>
+<li>Build around business use cases, not real life. <strong>Avoid this TRAP</strong>.</li>
+<li>Concepts in the solution space.</li>
+<li>Ids over objects references.</li>
+<li>Design consistency. Persistence and concurrency feedback.</li>
+<li>Aggregate root: All communications through root entity.</li>
+<li>Domain objects only exist as a part of an aggregate, as a part of a conceptual whole.</li>
+<li>Reference isolation boundary.</li>
+<li>Versioning can solve some concurrency problem.</li>
+</ul>
+<h2 id="Repositories"><a href="#Repositories" class="headerlink" title="Repositories"></a>Repositories</h2><ul>
+<li>Aggregate Root repositories has only getById and add/save methods.</li>
+<li>Query hydration/persistence synchronization entry points.</li>
+<li>Transactional behavior.</li>
+</ul>
+<h2 id="Factories"><a href="#Factories" class="headerlink" title="Factories"></a>Factories</h2><p>Using factories will improve your code legibility and you will enfacy the isolation and complexity of complex models creation.</p>
+<p>New Patterns (events):</p>
+<h2 id="Domain-Events"><a href="#Domain-Events" class="headerlink" title="Domain Events"></a>Domain Events</h2><ul>
+<li>External events.</li>
+<li>Internal events.</li>
+<li>Event Sourcing: projections, snapshots. temporal queries, and competitive advantage vs complexity.</li>
+</ul>
+<h1 id="Application-User-Interfaces"><a href="#Application-User-Interfaces" class="headerlink" title="Application User Interfaces"></a>Application User Interfaces</h1><p>Based on bounded context Owning:</p>
+<ul>
+<li>Autonomous.</li>
+<li>Authoritative.</li>
+</ul>
+<p>Based on user interface call owning:</p>
+<ul>
+<li>Client-side composition.</li>
+<li> Server-side aggregation.</li>
+</ul>
+<h1 id="Architectural-recommendations-based-on-context"><a href="#Architectural-recommendations-based-on-context" class="headerlink" title="Architectural recommendations based on context:"></a>Architectural recommendations based on context:</h1><ul>
+<li>Clean/Ports and Adapters.</li>
+<li>CQRS.</li>
+<li>Communication based on messages.</li>
+<li>Event sourcing with CQRS.</li>
+</ul>
+<p>Application Services:</p>
+<ul>
+<li> Command processor.</li>
+<li> Publisher subscriber.</li>
+<li> Request/Reply.</li>
+<li> Asynchronous patterns.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/04/software-development-pyramid/" rel="prev" title="The Software Development Pyramid">
+      <i class="fa fa-chevron-left"></i> The Software Development Pyramid
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/01/motivation-boost-objetives/" rel="next" title="Motivation Boost: Objetives">
+      Motivation Boost: Objetives <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/04/25/pppddd/";
+    this.page.identifier = "2020/04/25/pppddd/";
+    this.page.title = "Book notes: Patterns, Principles, and Practices of Domain-Driven Design";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

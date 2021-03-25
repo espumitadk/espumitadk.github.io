@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="In some applications, we can find many benefits by splitting the model into two parts: the update part, commands, and the reading part, queries. In 2006, Greg Young started talking about this pattern,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Software Architectures examples: CQRS">
+<meta property="og:url" content="http://espumita.org/2020/11/30/cqrs/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="In some applications, we can find many benefits by splitting the model into two parts: the update part, commands, and the reading part, queries. In 2006, Greg Young started talking about this pattern,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/11/30/cqrs/4ljlkhjlk34rjh34jlh3d4lkjl3jk3kl3dkldkl.jpg">
+<meta property="og:image" content="http://espumita.org/2020/11/30/cqrs/hjke3kbjbjk2sjkbjkbn2jkkj23jkskj.JPG">
+<meta property="og:image" content="http://espumita.org/2020/11/30/cqrs/KJBDKJD3JKDJ3LKLKJLKLSL2LK2SK2SKSN.JPG">
+<meta property="article:published_time" content="2020-11-30T21:02:56.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.834Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/11/30/cqrs/4ljlkhjlk34rjh34jlh3d4lkjl3jk3kl3dkldkl.jpg">
+
+<link rel="canonical" href="http://espumita.org/2020/11/30/cqrs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Software Architectures examples: CQRS | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/11/30/cqrs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Software Architectures examples: CQRS
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-30 21:02:56" itemprop="dateCreated datePublished" datetime="2020-11-30T21:02:56+00:00">2020-11-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>In some applications, we can find many benefits by <strong>splitting the model</strong> into two parts: the update part, <strong>commands</strong>, and the reading part, <strong>queries</strong>. In 2006, Greg Young started talking about <a href="https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf" target="_blank" rel="noopener">this pattern</a>, also known as <strong>Command Query Responsibility Segregation (CQRS)</strong>. </p>
+<img src="/2020/11/30/cqrs/4ljlkhjlk34rjh34jlh3d4lkjl3jk3kl3dkldkl.jpg" class="">
+
+<a id="more"></a>
+
+<p>We can see this pattern as a result to apply the <strong>Command–query separation</strong> principle,<a href="https://en.wikipedia.org/wiki/Command%E2%80%93query_separation" target="_blank" rel="noopener">CQS</a> at <strong>architecture abstraction level</strong>.</p>
+<h1 id="Benefits"><a href="#Benefits" class="headerlink" title="Benefits"></a>Benefits</h1><ul>
+<li><p><strong>Less complex</strong> domain models.</p>
+</li>
+<li><p><strong>Write model</strong> only knows about command related data and validations.</p>
+</li>
+<li><p><strong>Read model</strong> only knows about views data, data do not need to be validated.</p>
+</li>
+<li><p>Possibility to take decisions about <strong>improving performance</strong> without affecting the whole application. For example, the read model can be <strong>scaled separately</strong> using other faster database technology.</p>
+</li>
+<li><p>Highly <strong>potential</strong> to <strong>integrate with other patterns</strong>, for example, patterns based on events.</p>
+</li>
+<li><p><strong>Potentially</strong> to implement <strong>resilence</strong> strategies like <strong>rebuild queries persistence</strong> in case of data loss.</p>
+</li>
+</ul>
+<h1 id="Drawnbacks"><a href="#Drawnbacks" class="headerlink" title="Drawnbacks"></a>Drawnbacks</h1><p>This pattern is <strong>not a silver bullet</strong>. In many cases using this pattern only adds <strong>more complexity</strong>, more code to maintain, and usually more infrastructure parts. An example is to apply this pattern in a simple CRUD application.</p>
+<p>The <strong>decision to apply</strong> this pattern must be followed by model <strong>simplification benefits</strong>, and maybe by <strong>nonfunctional requirements</strong> like queries velocity <strong>scalability</strong>.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>Following <a href="https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/CQRS" target="_blank" rel="noopener">this</a> aspnetcore example, consider the next code distribution:</p>
+<img src="/2020/11/30/cqrs/hjke3kbjbjk2sjkbjkbn2jkkj23jkskj.JPG" class="">
+
+<p>This music application example is built on top of the previous <a href="/2020/11/21/hexagonal-architecture/">Hexagonal Architecture example</a>. It’s recommended to understand previous examples first. In this example, we had decided to separate the code into two parts: reads and writes. In the <strong>application layer</strong> now we find two different <strong>folders</strong>:</p>
+<ul>
+<li><p><strong>Application.Write</strong> with the application write <a href="https://en.wikipedia.org/wiki/Use_case" target="_blank" rel="noopener">use cases</a>, the commands, models as <strong>services</strong>. In this case: <em>CreatePlayList</em>, <em>AddTrackToPlayList</em>, etc.</p>
+</li>
+<li><p><strong>Application.Read</strong> with the application read use cases, models as <strong>queries</strong>. : <em>GetTracksQuery</em>, <em>GetAllPlayListQuery</em>, etc.</p>
+</li>
+</ul>
+<p>If we look at the project dependency tree, we can see that reads and writes are completely separated:</p>
+<img src="/2020/11/30/cqrs/KJBDKJD3JKDJ3LKLKJLKLSL2LK2SK2SKSN.JPG" class="">
+
+<h1 id="Models-difference"><a href="#Models-difference" class="headerlink" title="Models difference"></a>Models difference</h1><p>Now we will compare the code with the <a href="/2020/11/21/hexagonal-architecture/">previus example</a>. As you can see, now models has been <strong>separated in two proyects</strong>: <em>MyMusic.Domain</em> and <em>MyMusic.Application.Read.Model</em>:</p>
+<h2 id="Write-model"><a href="#Write-model" class="headerlink" title="Write model"></a>Write model</h2><p>The write model, is still the domain, who owns <strong>validations</strong> an <strong>behaviour</strong>, as public methods, as we can see in the <em>Playlist</em>:</p>
+<p>Class: <em>MyMusic.Domain.PlayList</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayList</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Id &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> PlayListStatus Status &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Track&gt; TrackList &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ImageUrl &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayList</span>(<span class="params"><span class="keyword">string</span> id, <span class="keyword">string</span> name, PlayListStatus status, List&lt;Track&gt; trackList, <span class="keyword">string</span> imageUrl</span>)</span> &#123;</span><br><span class="line">        Id = id;</span><br><span class="line">        Name = name;</span><br><span class="line">        Status = status;</span><br><span class="line">        TrackList = trackList;</span><br><span class="line">        ImageUrl = imageUrl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> PlayList <span class="title">Create</span>(<span class="params"><span class="keyword">string</span> id, <span class="keyword">string</span> name</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PlayList(id, name, PlayListStatus.Active, <span class="keyword">new</span> List&lt;Track&gt;(), <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Option&lt;DomainError&gt; <span class="title">Add</span>(<span class="params">Track track</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> trackToAddAlreadyInPlayList = TrackList.FirstOrDefault(x =&gt; x.Id.Equals(track.Id));</span><br><span class="line">        <span class="keyword">if</span> (trackToAddAlreadyInPlayList != <span class="literal">null</span>) <span class="keyword">return</span> DomainError.CannotAddSameTrackTwice; </span><br><span class="line">        TrackList.Add(track);</span><br><span class="line">        <span class="keyword">return</span> Option&lt;DomainError&gt;.None;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Option&lt;DomainError&gt; <span class="title">Remove</span>(<span class="params"><span class="keyword">string</span> trackId</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> trackToRemove = TrackList.FirstOrDefault(track =&gt; track.Id.Equals(trackId));</span><br><span class="line">        <span class="keyword">if</span> (trackToRemove == <span class="literal">null</span>) <span class="keyword">return</span> DomainError.TrackIsNotInThePlayList;</span><br><span class="line">        TrackList.Remove(trackToRemove);</span><br><span class="line">        <span class="keyword">return</span> Option&lt;DomainError&gt;.None;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Rename</span>(<span class="params"><span class="keyword">string</span> newPlayListName</span>)</span> &#123;</span><br><span class="line">        Name = newPlayListName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Archive</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        Status = PlayListStatus.Archived;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">AddImageUrl</span>(<span class="params"><span class="keyword">string</span> aNewImageUrL</span>)</span> &#123;</span><br><span class="line">        ImageUrl = aNewImageUrL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>On the other hand, <em>PlayList</em> class, have all the <strong>properties needed by</strong> the <strong>domain rules</strong>: <em>Id</em>, <em>Name</em>, <em>Status</em>, <em>TrackList</em>, and <em>ImageUrl</em>.</p>
+<p>But, If we take a look to <em>Track</em> class:</p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Track</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Id &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Track</span>(<span class="params"><span class="keyword">string</span> id</span>)</span> &#123;</span><br><span class="line">        Id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Track <span class="title">With</span>(<span class="params"><span class="keyword">string</span> trackId</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Track(trackId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We can see that the <strong>domain only needs</strong> the <em>Id</em> property to work with the rules. This means, that <strong>splitting the models</strong> has <strong>simplify</strong> our write model.</p>
+<h1 id="Read-model"><a href="#Read-model" class="headerlink" title="Read model"></a>Read model</h1><p>We can see that in the real model we also have a <em>PlayList</em> class, with the same properties, but <strong>without business rules</strong>. So we end up with just a <strong>plain object</strong> to serve data.</p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayList</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Id &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> PlayListStatus Status &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;Track&gt; TrackList &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ImageUrl &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayList</span>(<span class="params"><span class="keyword">string</span> id, <span class="keyword">string</span> name, PlayListStatus status, List&lt;Track&gt; trackList, <span class="keyword">string</span> imageUrl</span>)</span> &#123;</span><br><span class="line">        Id = id;</span><br><span class="line">        Name = name;</span><br><span class="line">        Status = status;</span><br><span class="line">        TrackList = trackList;</span><br><span class="line">        ImageUrl = imageUrl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And if we look at <em>Track</em> class, we can see that it have <strong>properties</strong> like <em>Name</em> and <em>Artist, who are *</em>important for the views<strong>, but **not necesary</strong> for the <strong>business rules</strong>.</p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Track</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Id &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Artist &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> DurationInMs &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Track</span>(<span class="params"><span class="keyword">string</span> id, <span class="keyword">string</span> name, <span class="keyword">string</span> artist, <span class="keyword">int</span> durationInMs</span>)</span> &#123;</span><br><span class="line">        Id = id;</span><br><span class="line">        Name = name;</span><br><span class="line">        Artist = artist;</span><br><span class="line">        DurationInMs = durationInMs;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>At this point, the <strong>model doesn’t care</strong> who part of the infrastructure fills the <em>Name</em> data in the database, maybe another system, or data migration.</p>
+<h1 id="What-about-splitting-persistence"><a href="#What-about-splitting-persistence" class="headerlink" title="What about splitting persistence?"></a>What about splitting persistence?</h1><p>A big beneffist to work like this is that now, <strong>optionaly</strong>, we can <strong>change</strong> read models <strong>persistence</strong> by another technology <strong>without affecting</strong> any <strong>business rules</strong>.</p>
+<p>As simple as implement other adapter, in this case we have <em>TracksPostgreSQLQueriesAdapter</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TracksPostgreSQLQueriesAdapter</span> : <span class="title">TracksQueryPort</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Track <span class="title">GetTrack</span>(<span class="params"><span class="keyword">string</span> trackId</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//This should be read from PostgreSQL DB</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Track(<span class="string">"2E5804A7-A0CC-46E0-B167-A818A696F3E0"</span>, <span class="string">"Mis Colegas"</span>, <span class="string">"Ska-P"</span>, <span class="number">246600</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>But it can be easily replaced by <em>TracksMongoQueriesAdapter</em> for example. But take into account, that if you decide to <strong>split the persistence</strong>, you <strong>need a synchronization method</strong> between models.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/21/hexagonal-architecture/" rel="prev" title="Software Architectures examples: Hexagonal Architecture">
+      <i class="fa fa-chevron-left"></i> Software Architectures examples: Hexagonal Architecture
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/19/event-driven/" rel="next" title="Software Architectures examples: Event-Driven">
+      Software Architectures examples: Event-Driven <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/11/30/cqrs/";
+    this.page.identifier = "2020/11/30/cqrs/";
+    this.page.title = "Software Architectures examples: CQRS";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

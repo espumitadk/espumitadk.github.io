@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Espumita&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://espumita.org/"/>
+  <updated>2021-03-25T23:43:04.584Z</updated>
+  <id>http://espumita.org/</id>
+  
+  <author>
+    <name>David Falcón Naranjo</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>How to debug https traces</title>
+    <link href="http://espumita.org/2021/03/25/debug-https/"/>
+    <id>http://espumita.org/2021/03/25/debug-https/</id>
+    <published>2021-03-25T20:28:21.000Z</published>
+    <updated>2021-03-25T23:43:04.584Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sometimes we deal with well-secured scenarios where there are no many ways to check HTTP traffic. And in these cases, common tracing tools are not enough.&lt;/p&gt;
+&lt;p&gt;Consider the next communication:&lt;/p&gt;
+&lt;img src=&quot;/2021/03/25/debug-https/kj3bajk32jk23ejlkd23jlksdjlk2jlk23elkjl2kdlk.JPG&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="HTTP" scheme="http://espumita.org/categories/HTTP/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Money is draining your life</title>
+    <link href="http://espumita.org/2021/02/21/money/"/>
+    <id>http://espumita.org/2021/02/21/money/</id>
+    <published>2021-02-21T10:31:15.000Z</published>
+    <updated>2021-03-25T23:21:39.886Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;In our society, we could say that &lt;strong&gt;money&lt;/strong&gt; is equal to &lt;strong&gt;power&lt;/strong&gt;. Because with money you have the power to buy things or services. But that is not actually all.&lt;/p&gt;
+&lt;p&gt;What does &lt;strong&gt;really&lt;/strong&gt; money &lt;strong&gt;means&lt;/strong&gt; nowadays? In essence, since the fall of the &lt;a href=&quot;https://en.wikipedia.org/wiki/Gold_standard&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;gold standard&lt;/a&gt;, caused by the &lt;a href=&quot;https://en.wikipedia.org/wiki/Nixon_shock&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Nixon shock&lt;/a&gt; in 1971, money now is just a portion of &lt;strong&gt;debt&lt;/strong&gt;. That’s it, for the last 50 years, a paper that means that you have a representation of a debt.&lt;/p&gt;
+&lt;img src=&quot;/2021/02/21/money/LKLKWEKLWEKWLKRLKWLKRWLKRKLWE.jpg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="economy" scheme="http://espumita.org/categories/economy/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Software Architectures examples : Asynchronous Command Queue</title>
+    <link href="http://espumita.org/2020/12/26/asynchronous-command-queue/"/>
+    <id>http://espumita.org/2020/12/26/asynchronous-command-queue/</id>
+    <published>2020-12-26T15:59:57.000Z</published>
+    <updated>2021-03-25T23:21:39.809Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;There are some scenarios where we &lt;strong&gt;don’t need to wait&lt;/strong&gt; for fast feedback when executing tasks. In some cases, we can just &lt;strong&gt;request the computation&lt;/strong&gt; of that a task, &lt;strong&gt;a command&lt;/strong&gt;, and at some moment in the future, we can &lt;strong&gt;receive a callback&lt;/strong&gt; notification with the execution result.&lt;/p&gt;
+&lt;p&gt;To explore a solution for this posibilities, I decided to build &lt;a href=&quot;https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/Asynchronous%20Command%20Queue&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;this&lt;/a&gt; example by applying an &lt;strong&gt;asynchronous command queue&lt;/strong&gt;.&lt;/p&gt;
+&lt;img src=&quot;/2020/12/26/asynchronous-command-queue/hj2v3hsbj3hsbjks2jk1nsk2j1bs2jkhbskhj22jkhs2skj.jpg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Architecture" scheme="http://espumita.org/categories/Architecture/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Software Architectures examples: Event-Driven</title>
+    <link href="http://espumita.org/2020/12/19/event-driven/"/>
+    <id>http://espumita.org/2020/12/19/event-driven/</id>
+    <published>2020-12-19T12:15:04.000Z</published>
+    <updated>2021-03-25T23:21:39.872Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;We can discuss a &lt;a href=&quot;https://www.youtube.com/watch?v=STKCRSUsyP0&amp;ab_channel=GOTOConferences&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;lot&lt;/a&gt; about what is or what is not &lt;a href=&quot;https://en.wikipedia.org/wiki/Event-driven_architecture&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Event Driven Architecture&lt;/a&gt;. But in this post, we will see how &lt;strong&gt;events&lt;/strong&gt; can &lt;strong&gt;improve&lt;/strong&gt; the &lt;strong&gt;design&lt;/strong&gt; in our solutions.&lt;/p&gt;
+&lt;img src=&quot;/2020/12/19/event-driven/jd3jdjk32jkt2k3jrk32jd3j2dk32kd32e32d.png&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Architecture" scheme="http://espumita.org/categories/Architecture/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Software Architectures examples: CQRS</title>
+    <link href="http://espumita.org/2020/11/30/cqrs/"/>
+    <id>http://espumita.org/2020/11/30/cqrs/</id>
+    <published>2020-11-30T21:02:56.000Z</published>
+    <updated>2021-03-25T23:21:39.834Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;In some applications, we can find many benefits by &lt;strong&gt;splitting the model&lt;/strong&gt; into two parts: the update part, &lt;strong&gt;commands&lt;/strong&gt;, and the reading part, &lt;strong&gt;queries&lt;/strong&gt;. In 2006, Greg Young started talking about &lt;a href=&quot;https://cqrs.files.wordpress.com/2010/11/cqrs_documents.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;this pattern&lt;/a&gt;, also known as &lt;strong&gt;Command Query Responsibility Segregation (CQRS)&lt;/strong&gt;. &lt;/p&gt;
+&lt;img src=&quot;/2020/11/30/cqrs/4ljlkhjlk34rjh34jlh3d4lkjl3jk3kl3dkldkl.jpg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Architecture" scheme="http://espumita.org/categories/Architecture/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Software Architectures examples: Hexagonal Architecture</title>
+    <link href="http://espumita.org/2020/11/21/hexagonal-architecture/"/>
+    <id>http://espumita.org/2020/11/21/hexagonal-architecture/</id>
+    <published>2020-11-21T17:41:45.000Z</published>
+    <updated>2021-03-25T23:21:39.877Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;What is this architecture about, and what`s the difference from others more traditional like &lt;a href=&quot;https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;MVC&lt;/a&gt;?&lt;/p&gt;
+&lt;p&gt;If we go back to 2005, according to &lt;a href=&quot;https://alistair.cockburn.us/hexagonal-architecture/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Alistair Cockburn&lt;/a&gt;, the creator of this term, this architecture tries to solve the problem of &lt;em&gt;Avoid infiltration of business logic into the user interface code&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The most important thing of this architecture is to &lt;strong&gt;protect&lt;/strong&gt; the most valuable code of any application, &lt;strong&gt;the domain&lt;/strong&gt;. &lt;/p&gt;
+&lt;img src=&quot;/2020/11/21/hexagonal-architecture/ASLDLKHLAJSDJLLMDLJMD2KMK2JKSNS.png&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Architecture" scheme="http://espumita.org/categories/Architecture/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Be the worst != Feel the worst</title>
+    <link href="http://espumita.org/2020/10/20/be-the-worst/"/>
+    <id>http://espumita.org/2020/10/20/be-the-worst/</id>
+    <published>2020-10-20T15:37:25.000Z</published>
+    <updated>2021-03-25T23:21:39.811Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Be the worst is about &lt;strong&gt;learning&lt;/strong&gt;, and to have people about to &lt;strong&gt;learn from&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Maybe you are better than someone in some at some area, but that doesn’t mean &lt;strong&gt;you’re better&lt;/strong&gt; than him. Someone may be &lt;strong&gt;much better&lt;/strong&gt; than &lt;strong&gt;you&lt;/strong&gt; at something, that does not mean that you are worst than him.&lt;/p&gt;
+&lt;img src=&quot;/2020/10/20/be-the-worst/jl23h4jkh23kjsjkwjwsjj2jsjwskkkw.png&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Apprenticeship" scheme="http://espumita.org/categories/Apprenticeship/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Dangers of using your own HTTP authentication scheme</title>
+    <link href="http://espumita.org/2020/09/22/http-custom-authentication/"/>
+    <id>http://espumita.org/2020/09/22/http-custom-authentication/</id>
+    <published>2020-09-22T19:49:01.000Z</published>
+    <updated>2021-03-25T23:21:39.886Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/static/J23J2J2KSKK12lkk2kwlsll22la.png&quot;/&gt;
+
+&lt;p&gt;HTTP provides some &lt;strong&gt;authentication schemes&lt;/strong&gt; like: Basic, Bearer, Digest, HOBA, Mutual, Negotiate, OAuth, etc. As described in the &lt;a href=&quot;http://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;RFC&lt;/a&gt;.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="HTTP" scheme="http://espumita.org/categories/HTTP/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Book notes: Soft Skills, The software developer&#39;s life manual</title>
+    <link href="http://espumita.org/2020/08/13/soft-skills/"/>
+    <id>http://espumita.org/2020/08/13/soft-skills/</id>
+    <published>2020-08-13T18:51:57.000Z</published>
+    <updated>2021-03-25T23:21:39.914Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2020/08/13/soft-skills/njb32hbj2whkasj2j2hjj.png&quot; class=&quot;&quot;&gt;
+
+&lt;p&gt;Reading this book has been an interesting experience. This book can give you some &lt;strong&gt;light&lt;/strong&gt; to many different &lt;strong&gt;topics&lt;/strong&gt; in a software developer’s life. John Z. Sonmez tells his &lt;strong&gt;story&lt;/strong&gt;. You can learn very interesting lessons. I recommend not only read the book, but also discover his story the years after writing it.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Motivation Boost: Stimulus</title>
+    <link href="http://espumita.org/2020/06/13/motivation-boost-stimulus/"/>
+    <id>http://espumita.org/2020/06/13/motivation-boost-stimulus/</id>
+    <published>2020-06-13T22:51:55.000Z</published>
+    <updated>2021-03-25T23:21:39.902Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2020/06/13/motivation-boost-stimulus/aslkdnklajsdkladklaldlaedkjlaeldkld.jpg&quot; class=&quot;&quot;&gt;
+
+&lt;p&gt;Be &lt;strong&gt;motivated&lt;/strong&gt; or not be? That is the question. Had you ever thought about what stimulus in your life &lt;strong&gt;triggers&lt;/strong&gt; your motivation?&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Apprenticeship" scheme="http://espumita.org/categories/Apprenticeship/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Dotnet Dependency Injection Setup</title>
+    <link href="http://espumita.org/2020/06/07/dotnet-dependency-injection/"/>
+    <id>http://espumita.org/2020/06/07/dotnet-dependency-injection/</id>
+    <published>2020-06-07T20:52:27.000Z</published>
+    <updated>2021-03-25T23:21:39.871Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/static/J23J2J2KSKK12lkk2kwlsll22la.png&quot;/&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/espumita/dotnet-setup-examples&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Thease&lt;/a&gt; are some examples of the dotnet dependency injection engine setup, in some different kind of projects.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="dotnet" scheme="http://espumita.org/categories/dotnet/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Motivation Boost: Objetives</title>
+    <link href="http://espumita.org/2020/06/01/motivation-boost-objetives/"/>
+    <id>http://espumita.org/2020/06/01/motivation-boost-objetives/</id>
+    <published>2020-06-01T17:05:01.000Z</published>
+    <updated>2021-03-25T23:21:39.897Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2020/06/01/motivation-boost-objetives/hjs3j3j3sg5h3k3k3k3sgha3h3sl.jpg&quot; class=&quot;&quot;&gt;
+
+&lt;p&gt;I like the &lt;strong&gt;long road&lt;/strong&gt; metaphor. During my journey, I like to reach my apprenticeship &lt;strong&gt;goals&lt;/strong&gt;, it’s the way I feel I &lt;strong&gt;progress&lt;/strong&gt;. But, I have got full-time work, a family and a life to attend.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Apprenticeship" scheme="http://espumita.org/categories/Apprenticeship/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Book notes: Patterns, Principles, and Practices of Domain-Driven Design</title>
+    <link href="http://espumita.org/2020/04/25/pppddd/"/>
+    <id>http://espumita.org/2020/04/25/pppddd/</id>
+    <published>2020-04-25T08:10:44.000Z</published>
+    <updated>2021-03-25T23:21:39.910Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2020/04/25/pppddd/h23h424bj234j32h3jj.png&quot; class=&quot;&quot;&gt;
+
+&lt;p&gt;This book has the responses to many questions I asked myself during the last year of exploring DDD. My team and I had te opportunity to discuss and apply many of the concepts and patterns and dynamics of this book in our recent projects. Definitely, give it a try is a recommended experience.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>The Software Development Pyramid</title>
+    <link href="http://espumita.org/2020/04/04/software-development-pyramid/"/>
+    <id>http://espumita.org/2020/04/04/software-development-pyramid/</id>
+    <published>2020-04-04T15:57:19.000Z</published>
+    <updated>2021-03-25T23:21:39.931Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;When I was at the university, I learned that software development principles can be classified at different levels, depending on the impact that they affect the structure of a software project. This means that they have a different use, different abstraction level, and different difficulty. So, if you want to learn this  &lt;strong&gt;discipline&lt;/strong&gt; in deep, you can know where to &lt;strong&gt;start&lt;/strong&gt;, according to this hierarchy.&lt;/p&gt;
+&lt;img src=&quot;/2020/04/04/software-development-pyramid/23nje4o93xo23dn29od0923d.png&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>The Software Craftsman (Part I)</title>
+    <link href="http://espumita.org/2020/03/04/software-craftsmanship/"/>
+    <id>http://espumita.org/2020/03/04/software-craftsmanship/</id>
+    <published>2020-03-04T19:35:10.000Z</published>
+    <updated>2021-03-25T23:21:39.917Z</updated>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2020/03/04/software-craftsmanship/asibjhd8238db231b8fna.jpg&quot; class=&quot;&quot;&gt;
+
+&lt;h1 id=&quot;Why-this-book&quot;&gt;&lt;a href=&quot;#Why-this-book&quot; class=&quot;headerlink&quot; title=&quot;Why this book?&quot;&gt;&lt;/a&gt;Why this book?&lt;/h1&gt;&lt;p&gt;During the last years, I had been in Software Craftsmanship conferences in Pamplona, Madrid and Barcelona, and some editions of the Socrates Canaries (Software Crafters and Testers Conference). I have participated in some editions of the Global Day of Coderetreat, and some Coding Dojos of the local Gran Canaria local community of developers.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Craftsmanship" scheme="http://espumita.org/categories/Craftsmanship/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Software Development</title>
+    <link href="http://espumita.org/2019/07/05/software-development/"/>
+    <id>http://espumita.org/2019/07/05/software-development/</id>
+    <published>2019-07-05T22:03:34.000Z</published>
+    <updated>2021-03-25T23:21:39.936Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;When you develop you are only sitting in a chair, in front of your screen, writing lines. Once and again the same commands and numbers.&lt;/p&gt;
+&lt;p&gt;This is what a person that is watching you from outside see. Probably thinks that programming is based in to learn commands and write them. That you probably are listening to music while programming to fight the &lt;strong&gt;tedious work&lt;/strong&gt; of writing thousands of times the same lines every day. Maybe many people think that software development it’s a purely mathematical, methodic and antisocial work. Every day is the same, same screen, same operations, and the same game rules.&lt;/p&gt;
+&lt;p&gt;But actually, you are just watching the code, you are thinking. Thinking in your next step to sculpt a new feature or just to &lt;strong&gt;improve.&lt;/strong&gt; Improve the legibility, the performance, the team or just you. You are immersed in the “gold rush”, you are looking for the perfect code. The most optimal solution, the easiest to implement, the less expensive or the one that brings more &lt;strong&gt;value.&lt;/strong&gt;&lt;/p&gt;
+&lt;img src=&quot;/2019/07/05/software-development/1_4z2eywRcXvk8bJM4eDunhQ.jpeg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
+  
+</feed>

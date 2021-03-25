@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="When I was at the university, I learned that software development principles can be classified at different levels, depending on the impact that they affect the structure of a software project. This m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Software Development Pyramid">
+<meta property="og:url" content="http://espumita.org/2020/04/04/software-development-pyramid/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="When I was at the university, I learned that software development principles can be classified at different levels, depending on the impact that they affect the structure of a software project. This m">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/04/04/software-development-pyramid/23nje4o93xo23dn29od0923d.png">
+<meta property="og:image" content="http://espumita.org/2020/04/04/software-development-pyramid/3k4bjh5hjv43hg435kh.jpg">
+<meta property="og:image" content="http://espumita.org/2020/04/04/software-development-pyramid/njawebq9dqn9d92mm.jpg">
+<meta property="article:published_time" content="2020-04-04T15:57:19.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.931Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/04/04/software-development-pyramid/23nje4o93xo23dn29od0923d.png">
+
+<link rel="canonical" href="http://espumita.org/2020/04/04/software-development-pyramid/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>The Software Development Pyramid | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/04/04/software-development-pyramid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Software Development Pyramid
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-04 16:57:19" itemprop="dateCreated datePublished" datetime="2020-04-04T16:57:19+01:00">2020-04-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Development/" itemprop="url" rel="index"><span itemprop="name">Development</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>When I was at the university, I learned that software development principles can be classified at different levels, depending on the impact that they affect the structure of a software project. This means that they have a different use, different abstraction level, and different difficulty. So, if you want to learn this  <strong>discipline</strong> in deep, you can know where to <strong>start</strong>, according to this hierarchy.</p>
+<img src="/2020/04/04/software-development-pyramid/23nje4o93xo23dn29od0923d.png" class="">
+
+<a id="more"></a>
+
+<h1 id="But-what-is-a-software-development-principle"><a href="#But-what-is-a-software-development-principle" class="headerlink" title="But, what is a software development principle?"></a>But, what is a software development principle?</h1><p>Over the last decades, since the computer era began, billions of lines of code have been written. Millions of developers have fought against incalculable numbers of problems, generating thousands of solutions.</p>
+<p>Over the years, <strong>good</strong> and bad ways to create software have been propagated. The evolution of technologies, languages, and techniques have build the software development world we have today.</p>
+<p>For our luck, this <strong>evolution</strong> has brought to us many fantastic concepts and “good practices” that we can apply to improve our solutions. Many of them, are known as software <strong>development principles</strong>.</p>
+<h1 id="Fundamentals"><a href="#Fundamentals" class="headerlink" title="Fundamentals"></a>Fundamentals</h1><p>They are the basic concepts of development. All the theory of the development is built up over of these <strong>pillars</strong>.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Modular_programming" target="_blank" rel="noopener">Modularity</a> and <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)" target="_blank" rel="noopener">Encapsulation</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cohesion_(computer_science)" target="_blank" rel="noopener">Cohesion</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Coupling_(computer_programming)" target="_blank" rel="noopener">Coupling</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Abstraction_(computer_science)" target="_blank" rel="noopener">Abstraction</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Polymorphism_(computer_science)" target="_blank" rel="noopener">Polymorphism</a></li>
+</ul>
+<p>Fundamentals are the first floor of the pyramid, and they are the most important ones. You <strong>must master</strong> the concepts in order to scale the pyramid.</p>
+<h1 id="Development-Principles"><a href="#Development-Principles" class="headerlink" title="Development Principles"></a>Development Principles</h1><p>There are a set of <strong>recommendations</strong> and <strong>bases</strong> that act as a guideline through the design process. Development Principles helps us to create more robust, extensible and simple solutions. This makes better to grow and to maintain software.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/SOLID" target="_blank" rel="noopener">SOLID principles</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank" rel="noopener">Separation of concerns</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Composition_over_inheritance" target="_blank" rel="noopener">Composition over inheritance</a></li>
+<li>Avoid <a href="https://en.wikipedia.org/wiki/Circular_dependency" target="_blank" rel="noopener">circular dependencies</a></li>
+<li><a href="https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it" target="_blank" rel="noopener">You aren’t gonna need it</a></li>
+<li><a href="https://en.wikipedia.org/wiki/KISS_principle" target="_blank" rel="noopener">Keep it simple, stupid</a></li>
+<li><a href="https://www.matheus.ro/2017/12/11/clean-code-boy-scout-rule/" target="_blank" rel="noopener">The boy scout rule</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank" rel="noopener">Do not repeat yourself</a></li>
+<li><a href="https://martinfowler.com/bliki/BeckDesignRules.html" target="_blank" rel="noopener">The four rules of simple design</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Inversion_of_control" target="_blank" rel="noopener">Inversion of control</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Law_of_Demeter" target="_blank" rel="noopener">The law of Demeter</a></li>
+<li>etc…</li>
+</ul>
+<p>At this level of the pyramid, a lot of good principles can be found, advice or rules. These ones do not solve any particular problem, but they can <strong>guide your decisions</strong> during the design process.</p>
+<p>Knowing them it’s important, but learning <strong>where to apply</strong> them its more important. In general, you <strong>should apply</strong> them. But, applying these principles <strong>depends</strong> on the context and the trade-offs between the cost of applying them and the value you get.</p>
+<p>It’s important to understand <strong>why</strong> they exist, because they are not dogmatisms or mathematical formulas to create good software. They have contributed to create <strong>better</strong> software solutions over the years.</p>
+<img src="/2020/04/04/software-development-pyramid/3k4bjh5hjv43hg435kh.jpg" class="">
+
+<h1 id="Design-Patterns"><a href="#Design-Patterns" class="headerlink" title="Design Patterns"></a>Design Patterns</h1><p>Are solutions to solve <strong>specific problems</strong>.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Builder_pattern" target="_blank" rel="noopener">Builder</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Command_pattern" target="_blank" rel="noopener">Command</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Singleton_pattern" target="_blank" rel="noopener">Singleton</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Observer_pattern" target="_blank" rel="noopener">Observer</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Strategy_pattern" target="_blank" rel="noopener">Strategy</a></li>
+<li><a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0" target="_blank" rel="noopener">Presentational-Container</a></li>
+<li><a href="https://martinfowler.com/bliki/CQRS.html" target="_blank" rel="noopener">CQRS</a></li>
+<li><a href="https://martinfowler.com/eaaDev/EventSourcing.html" target="_blank" rel="noopener">Event Sourcing</a></li>
+<li><a href="https://microservices.io/patterns/data/saga.html" target="_blank" rel="noopener">Saga</a></li>
+<li><a href="https://microservices.io/patterns/reliability/circuit-breaker.html" target="_blank" rel="noopener">Circuit Breaker</a></li>
+<li>etc…</li>
+</ul>
+<p>It’s more important to know the problem a pattern solves than how to implement it.</p>
+<p>The more <a href="https://en.wikipedia.org/wiki/Software_design_pattern" target="_blank" rel="noopener">patterns</a> you know, the more <strong>options</strong> you will have the moment you build software solutions. But it’s important that the <strong>usage is justified</strong> by the problem they solve, some times when we learn a new pattern, we tend to overuse it. Remember that there is <strong>no silver bullets</strong>.</p>
+<p>There are a lot of them, in a lot of different contexts of the development. Each time you try to learn a new area of software development, ask yourself what patterns you can find there, to understand the common <strong>problems</strong> in the area, and the specific <strong>solutions</strong> you can apply.</p>
+<h1 id="Architectural-Styles-Patterns"><a href="#Architectural-Styles-Patterns" class="headerlink" title="Architectural Styles Patterns"></a>Architectural Styles Patterns</h1><p>Patterns and styles that define the <strong>structure</strong> of software solutions.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" target="_blank" rel="noopener">MVC</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel" target="_blank" rel="noopener">MVVM</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multitier_architecture" target="_blank" rel="noopener">Multilayered architecture</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)" target="_blank" rel="noopener">Ports and adapters architecture</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Peer-to-peer" target="_blank" rel="noopener">Peer-to-peer</a></li>
+<li><a href="https://github.com/facebook/flux" target="_blank" rel="noopener">Flux</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Event-driven_architecture" target="_blank" rel="noopener">Event driven architecture</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern" target="_blank" rel="noopener">Publisher/Subscriber</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank" rel="noopener">REST</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Microservices" target="_blank" rel="noopener">Microservices architecture</a></li>
+<li><a href="https://martinfowler.com/articles/serverless.html" target="_blank" rel="noopener">Serverless Architecture</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Lambda_architecture" target="_blank" rel="noopener">Lambda Architecture</a></li>
+<li>etc…</li>
+</ul>
+<p>This is the top of the pyramid, here you find the <a href="https://en.wikipedia.org/wiki/Architectural_pattern" target="_blank" rel="noopener">patterns</a> that affect the <strong>big picture</strong>, and the most complex ones. In essence, these styles <strong>define</strong> and condition how the structure of <strong>solution</strong> should be <strong>designed</strong> and <strong>implemented</strong>.</p>
+<p>Like design patterns, the architectural styles should only be applied when they problem justify it.</p>
+<img src="/2020/04/04/software-development-pyramid/njawebq9dqn9d92mm.jpg" class="">
+
+<p>So if you want to start exploring this pyramid, make sure you <strong>do not</strong> start building the house from the roof.</p>
+<h1 id="But-this-does-not-mean-that-It’s-all-done"><a href="#But-this-does-not-mean-that-It’s-all-done" class="headerlink" title="But this does not mean that It’s all done!"></a>But this does not mean that It’s all done!</h1><p>In order to <strong>always</strong> create better software, you must <strong>think by yourself</strong> and <strong>distill</strong> all these principles, and many other concepts. </p>
+<p>This pyramid will <strong>never stop</strong> building. New principles, will be born in the next years, so <strong>be alert</strong>.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/04/software-craftsmanship/" rel="prev" title="The Software Craftsman (Part I)">
+      <i class="fa fa-chevron-left"></i> The Software Craftsman (Part I)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/25/pppddd/" rel="next" title="Book notes: Patterns, Principles, and Practices of Domain-Driven Design">
+      Book notes: Patterns, Principles, and Practices of Domain-Driven Design <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/04/04/software-development-pyramid/";
+    this.page.identifier = "2020/04/04/software-development-pyramid/";
+    this.page.title = "The Software Development Pyramid";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

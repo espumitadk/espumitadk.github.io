@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="There are some scenarios where we don’t need to wait for fast feedback when executing tasks. In some cases, we can just request the computation of that a task, a command, and at some moment in the fut">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Software Architectures examples : Asynchronous Command Queue">
+<meta property="og:url" content="http://espumita.org/2020/12/26/asynchronous-command-queue/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="There are some scenarios where we don’t need to wait for fast feedback when executing tasks. In some cases, we can just request the computation of that a task, a command, and at some moment in the fut">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/12/26/asynchronous-command-queue/hj2v3hsbj3hsbjks2jk1nsk2j1bs2jkhbskhj22jkhs2skj.jpg">
+<meta property="og:image" content="http://espumita.org/2020/12/26/asynchronous-command-queue/kweskjhw3jkh3jk3wjslkjk4d3wfjk434wdfjkwfjk3.JPG">
+<meta property="og:image" content="http://espumita.org/2020/12/26/asynchronous-command-queue/SHJBK3ZS2KHBJ243DKJH3DJK2L324JKLSK2JS23KJS324K.JPG">
+<meta property="article:published_time" content="2020-12-26T15:59:57.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.809Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/12/26/asynchronous-command-queue/hj2v3hsbj3hsbjks2jk1nsk2j1bs2jkhbskhj22jkhs2skj.jpg">
+
+<link rel="canonical" href="http://espumita.org/2020/12/26/asynchronous-command-queue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Software Architectures examples : Asynchronous Command Queue | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/12/26/asynchronous-command-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Software Architectures examples : Asynchronous Command Queue
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-26 15:59:57" itemprop="dateCreated datePublished" datetime="2020-12-26T15:59:57+00:00">2020-12-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Architecture/" itemprop="url" rel="index"><span itemprop="name">Architecture</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>There are some scenarios where we <strong>don’t need to wait</strong> for fast feedback when executing tasks. In some cases, we can just <strong>request the computation</strong> of that a task, <strong>a command</strong>, and at some moment in the future, we can <strong>receive a callback</strong> notification with the execution result.</p>
+<p>To explore a solution for this posibilities, I decided to build <a href="https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/Asynchronous%20Command%20Queue" target="_blank" rel="noopener">this</a> example by applying an <strong>asynchronous command queue</strong>.</p>
+<img src="/2020/12/26/asynchronous-command-queue/hj2v3hsbj3hsbjks2jk1nsk2j1bs2jkhbskhj22jkhs2skj.jpg" class="">
+
+<a id="more"></a>
+
+<h1 id="An-asynchronous-world-needs-asynchronous-solutions"><a href="#An-asynchronous-world-needs-asynchronous-solutions" class="headerlink" title="An asynchronous world needs asynchronous solutions"></a>An <strong>asynchronous world</strong> needs <strong>asynchronous solutions</strong></h1><p>This means that in many cases we need to build systems that are able to deal with <strong>asynchronous use cases</strong>, where no one is waiting for an immediate response.</p>
+<p>A typical example is when buying online. Traditional webs created <strong>big transactions</strong> with many comprobations like payment information, stock, delivery addresses… and users had to <strong>wait mandatory for all</strong> validations.</p>
+<p>But nowadays, when we think about <strong>improving</strong> the <strong>user experience</strong>, <a href="https://en.wikipedia.org/wiki/User_experience" target="_blank" rel="noopener">UX</a> today’s applications tend to <strong>simplify</strong> and <strong>accelerate</strong> the process for the user. The same <em>buy</em> action button, trigger a process. And at some time, the user <strong>will be notified</strong> via an email or a notification with the process result about if it’s finished o rejected.</p>
+<p>Under the hood, we can find that the original request has an HTTP 200 ok. But the dialogs between the servers are quite different from when we were used. Patterns like <strong>pooling</strong> or <strong>WebSockets</strong> are very common in the frontend.</p>
+<h1 id="Benefits"><a href="#Benefits" class="headerlink" title="Benefits"></a>Benefits</h1><ul>
+<li><strong>Concurrency disappears</strong>. Because now commands can be processed one by one, so potentially there are <strong>no race conditions</strong> between resources.</li>
+<li><strong>Less coupling</strong> and <strong>more flexibility</strong> because systems can now be integrated just with a <strong>command contract</strong>.</li>
+<li><strong>Improve client usage</strong> with faster requests, and less error management, at least in command publishing.</li>
+<li><strong>Possibility to define</strong> a command <strong>execution context</strong> and <strong>pipeline</strong>, to deal with stuff like transactions scopes or schedule.</li>
+<li>Possibility to <strong>implement</strong> with <strong>retry policities</strong>.</li>
+<li><strong>Good integration</strong> with <strong>technologies</strong> like webhooks, webshockets, etc.</li>
+<li>If command history is stored, there is a possibility to <strong>replay production loads</strong> in test environments replaying production commands.</li>
+</ul>
+<h1 id="Drawnbacks"><a href="#Drawnbacks" class="headerlink" title="Drawnbacks"></a>Drawnbacks</h1><ul>
+<li>Much <strong>more complexity</strong>, compared with previous architectures examples.</li>
+<li><strong>Harder learning curve</strong> than with other approaches.</li>
+<li>More technologies are involved, <strong>more points of failure</strong>.</li>
+<li>Usually <strong>need of a callback mechanism</strong> for the client to receive results and manage <strong>errors</strong>.</li>
+</ul>
+<p>This only has sense in a couple of scenarios, where executions and notifications are needed. <strong>Each solution</strong> has its <strong>suitable problem</strong>.</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><p>Following <a href="https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/Asynchronous%20Command%20Queue" target="_blank" rel="noopener">this</a> aspnetcore example, consider the next code distribution:</p>
+<img src="/2020/12/26/asynchronous-command-queue/kweskjhw3jkh3jk3wjslkjk4d3wfjk434wdfjkwfjk3.JPG" class="">
+
+<p>This music application example is built on top of the previous <a href="https://github.com/espumita/Architectural-styles-examples-in-.NET-core/tree/master/Event%20Driven" target="_blank" rel="noopener">Event Driven</a> example. It’s recommended to understand previous examples first. In this case, we had included some projects like <em>MyMusic.Application.Commands</em> and <em>MyMusic.Application.CommandsHandlers</em>:</p>
+<h1 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h1><p>Class: <em>MyMusic.Application.Commands.CreatePLayList</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CreatePLayList</span> : <span class="title">Command</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> PlayListName &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CreatePLayList</span>(<span class="params"><span class="keyword">string</span> playListName</span>)</span> &#123;</span><br><span class="line">        PlayListName = playListName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Commands are just <strong>request for use cases executions</strong> in this case.</p>
+<h1 id="Commands-subscription"><a href="#Commands-subscription" class="headerlink" title="Commands subscription"></a>Commands subscription</h1><p>Class: <em>MyMusic.Configuration</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">RegisterPlayListCommandProcessorsInTo</span>(<span class="params">CommandQueuePort commandQueue, PlayListCommandProcessor playListCommandProcessor</span>)</span> &#123;</span><br><span class="line">    commandQueue.SetQueueSingleConsumer&lt;CreatePLayList&gt;(playListCommandProcessor.Process);</span><br><span class="line">    commandQueue.SetQueueSingleConsumer&lt;RenamePlaylist&gt;(playListCommandProcessor.Process);</span><br><span class="line">    commandQueue.SetQueueSingleConsumer&lt;ChangePlayListImageUrl&gt;(playListCommandProcessor.Process);</span><br><span class="line">    commandQueue.SetQueueSingleConsumer&lt;ArchivePlayList&gt;(playListCommandProcessor.Process);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As you can see, for this example we had decided to create an in-memory command queue, found in <em>AsynchronousCommandQueueInMemoryAdapter</em>. In this part, we manually register the commands we are going to deal with in this application, and who is it going to process them.</p>
+<h1 id="Commands-creations"><a href="#Commands-creations" class="headerlink" title="Commands creations"></a>Commands creations</h1><p>Class: <em>MyMusic.Controllers.PlaylistsController</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpPost</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">CreatePlayList</span>(<span class="params">[FromBody]CreatePlayListRequest request</span>)</span> &#123;</span><br><span class="line">    commandQueue.Queue(<span class="keyword">new</span> CreatePLayList(request.PlayListName));</span><br><span class="line">    <span class="keyword">return</span> Ok();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Commands are <strong>created</strong> directly in the <strong>delivery layer</strong>, in this case in the controller.</p>
+<h1 id="Commands-processing"><a href="#Commands-processing" class="headerlink" title="Commands processing"></a>Commands processing</h1><p>Class: <em>MyMusic.CommandProcessors.PlayListCommandProcessor</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayListCommandProcessor</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> PlayListCommandHandlerCreator playListCommandHandlerCreator;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayListCommandProcessor</span>(<span class="params">PlayListCommandHandlerCreator playListCommandHandlerCreator</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.playListCommandHandlerCreator = playListCommandHandlerCreator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Either&lt;DomainError, CommandResult&gt; <span class="title">Process</span>(<span class="params">CreatePLayList command</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> commandHandler = playListCommandHandlerCreator.CreateCreatePlayListCommandHandler();</span><br><span class="line">        <span class="keyword">return</span> commandHandler.Handle(command);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>I decided to create this processor abstraction on top of handlers, the same with events in <a href="/2020/12/19/event-driven/">previous example</a>, to deal with injections and to generate a flow as similar as possible to the traditional controller-services approach.</p>
+<h1 id="Commands-handling"><a href="#Commands-handling" class="headerlink" title="Commands handling"></a>Commands handling</h1><p>Class: <em>MyMusic.Application.CommandHandlers.CreatePlayListCommandHandler</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CreatePlayListCommandHandler</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> UniqueIdentifiersPort uniqueIdentifiers;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> PlayListPersistencePort playListPersistence;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> EventPublisherPort eventPublisher;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CreatePlayListCommandHandler</span>(<span class="params">UniqueIdentifiersPort uniqueIdentifiers, PlayListPersistencePort playListPersistence, EventPublisherPort eventPublisher</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.uniqueIdentifiers = uniqueIdentifiers;</span><br><span class="line">        <span class="keyword">this</span>.playListPersistence = playListPersistence;</span><br><span class="line">        <span class="keyword">this</span>.eventPublisher = eventPublisher;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Either&lt;DomainError, CommandResult&gt; <span class="title">Handle</span>(<span class="params">CreatePLayList command</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> newPlayListId = uniqueIdentifiers.GetNewUniqueIdentifier();</span><br><span class="line">        <span class="keyword">var</span> playList = PlayList.Create(newPlayListId, command.PlayListName);</span><br><span class="line">        </span><br><span class="line">        playListPersistence.Persist(playList);</span><br><span class="line">        eventPublisher.Publish(playList.Events());</span><br><span class="line">        <span class="keyword">return</span> CommandResult.Success;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Commands handlers are</strong> now <strong>use cases</strong> executions and are the <strong>substitution of services</strong> from previous examples.</p>
+<p>Notice that <strong>each command</strong> now <strong>has</strong> the <strong>side effect</strong> of <strong>publishing an event</strong>.</p>
+<h1 id="Running-the-example-with-SignalR"><a href="#Running-the-example-with-SignalR" class="headerlink" title="Running the example with SignalR"></a>Running the example with SignalR</h1><p>Class: <em>MyMusic.Application.EventHandlers.PlayListHasBeenCreatedEventHandler</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PlayListHasBeenCreatedEventHandler</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> PlayListNotifierPort playListNotifier;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> WebsocketPort websocket;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayListHasBeenCreatedEventHandler</span>(<span class="params">PlayListNotifierPort playListNotifier, WebsocketPort websocket</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.playListNotifier = playListNotifier;</span><br><span class="line">        <span class="keyword">this</span>.websocket = websocket;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">Handle</span>(<span class="params">PlayListHasBeenCreated @<span class="keyword">event</span></span>)</span> &#123;</span><br><span class="line">        playListNotifier.NotifyPlayListHasBeenCreated(@<span class="keyword">event</span>.PlayListId, @<span class="keyword">event</span>.PlayListName);</span><br><span class="line">        <span class="keyword">await</span> websocket.PushMessageWithEventToAll(@<span class="keyword">event</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>And, as you can see, an <strong>event handlers</strong> is <strong>subscribed to that event</strong>, and we had added <em>websocket.PushMessageWithEventToAll(@event)</em></p>
+<h1 id="Send-messages-to-sockets"><a href="#Send-messages-to-sockets" class="headerlink" title="Send messages to sockets"></a>Send messages to sockets</h1><p>Class: <em>MyMusic.Websockets.SignalRWebsocketAdapter</em></p>
+<figure class="highlight csharp"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SignalRWebsocketAdapter</span> : <span class="title">Hub</span>, <span class="title">WebsocketPort</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span>  Task <span class="title">PushMessageWithEventToAll</span>(<span class="params">Event @<span class="keyword">event</span></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (Clients != <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">await</span> Clients.All.SendAsync(<span class="string">"AllMyMusicTarget"</span>, @<span class="keyword">event</span>.GetType().Name,@<span class="keyword">event</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">PushMessageWithErrorToAll</span>(<span class="params"><span class="keyword">string</span> error, Command command</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (Clients != <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">await</span> Clients.All.SendAsync(<span class="string">"AllMyMusicTarget"</span>, error, command);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This implementation simply sends to all server socket connections all the events.</p>
+<h1 id="Receibe-messages-in-the-client"><a href="#Receibe-messages-in-the-client" class="headerlink" title="Receibe messages in the client"></a>Receibe messages in the client</h1><p>Code: <em>Websocket-Web-Client/index.html</em></p>
+<figure class="highlight javascript"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> connection = <span class="keyword">new</span> signalR.HubConnectionBuilder()</span><br><span class="line">        .withUrl(<span class="string">"https://localhost:44375/MyMusicHub"</span>, &#123;</span><br><span class="line">            skipNegotiation: <span class="literal">true</span>,</span><br><span class="line">            transport: signalR.HttpTransportType.WebSockets</span><br><span class="line">        &#125;)</span><br><span class="line">        .configureLogging(signalR.LogLevel.Debug)</span><br><span class="line">        .build();</span><br><span class="line">        </span><br><span class="line">    connection.on(<span class="string">"AllMyMusicTarget"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">user, message</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"AllMyMusicTarget"</span>, user, message)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    connection.start().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"SignalR connection started..."</span>)</span><br><span class="line">    &#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">console</span>.error(error.toString());</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>In the javascript frontend client, we can see the socket connection opening with the server and the subscription to the <em>AllMyMusicTarget</em> messages.</p>
+<p>We can serve this code in a local web server by executing <em>npm install</em> and <em>npm run server</em>.</p>
+<h1 id="Run-execution"><a href="#Run-execution" class="headerlink" title="Run execution"></a>Run execution</h1><p>Then If we want to test the playlist creation endpoint, we only need to create a request like:</p>
+<figure class="highlight bash"><figcaption><span>[]</span></figcaption><table><tr><td class="code"><pre><span class="line">curl -X POST <span class="string">"https://localhost:44375/playlists"</span> -H <span class="string">"accept: */*"</span> -H <span class="string">"Content-Type: application/json"</span> -d <span class="string">"&#123;\"playListName\":\"a playlist\"&#125;"</span></span><br></pre></td></tr></table></figure>
+
+<p>And then we can see, that the message has traveled from the server through the client in the browser network tab:</p>
+<img src="/2020/12/26/asynchronous-command-queue/SHJBK3ZS2KHBJ243DKJH3DJK2L324JKLSK2JS23KJS324K.JPG" class="">
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/19/event-driven/" rel="prev" title="Software Architectures examples: Event-Driven">
+      <i class="fa fa-chevron-left"></i> Software Architectures examples: Event-Driven
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/21/money/" rel="next" title="Money is draining your life">
+      Money is draining your life <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/12/26/asynchronous-command-queue/";
+    this.page.identifier = "2020/12/26/asynchronous-command-queue/";
+    this.page.title = "Software Architectures examples : Asynchronous Command Queue";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

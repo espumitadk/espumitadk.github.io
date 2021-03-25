@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"espumita.org","root":"/","scheme":"Pisces","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Why this book?During the last years, I had been in Software Craftsmanship conferences in Pamplona, Madrid and Barcelona, and some editions of the Socrates Canaries (Software Crafters and Testers Con">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Software Craftsman (Part I)">
+<meta property="og:url" content="http://espumita.org/2020/03/04/software-craftsmanship/index.html">
+<meta property="og:site_name" content="Espumita&#39;s Blog">
+<meta property="og:description" content="Why this book?During the last years, I had been in Software Craftsmanship conferences in Pamplona, Madrid and Barcelona, and some editions of the Socrates Canaries (Software Crafters and Testers Con">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/asibjhd8238db231b8fna.jpg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/DaxHZgPWAAAkK-A.jpg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/1_u2-w9jqkQUd8EBSc2wt6mw.jpeg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/DNPqx1NX0AEK6Sb.jpg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/3hqjk4hibjl23hbjlkqwdehblk23i.jpg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/1_Sx4mmwufLW4BsLiv4kCZdA.jpeg">
+<meta property="og:image" content="http://espumita.org/2020/03/04/software-craftsmanship/43hj53g4h53f434c5h435jh34.png">
+<meta property="article:published_time" content="2020-03-04T19:35:10.000Z">
+<meta property="article:modified_time" content="2021-03-25T23:21:39.917Z">
+<meta property="article:author" content="David Falcón Naranjo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://espumita.org/2020/03/04/software-craftsmanship/asibjhd8238db231b8fna.jpg">
+
+<link rel="canonical" href="http://espumita.org/2020/03/04/software-craftsmanship/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>The Software Craftsman (Part I) | Espumita's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Espumita's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Espumita's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-posts">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Posts</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-resources">
+
+    <a href="/resources/" rel="section"><i class="fa fa-fw fa-book"></i>Resources</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://espumita.org/2020/03/04/software-craftsmanship/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+      <meta itemprop="name" content="David Falcón Naranjo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Espumita's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The Software Craftsman (Part I)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-04 19:35:10" itemprop="dateCreated datePublished" datetime="2020-03-04T19:35:10+00:00">2020-03-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Craftsmanship/" itemprop="url" rel="index"><span itemprop="name">Craftsmanship</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2020/03/04/software-craftsmanship/asibjhd8238db231b8fna.jpg" class="">
+
+<h1 id="Why-this-book"><a href="#Why-this-book" class="headerlink" title="Why this book?"></a>Why this book?</h1><p>During the last years, I had been in Software Craftsmanship conferences in Pamplona, Madrid and Barcelona, and some editions of the Socrates Canaries (Software Crafters and Testers Conference). I have participated in some editions of the Global Day of Coderetreat, and some Coding Dojos of the local Gran Canaria local community of developers.</p>
+<a id="more"></a>
+
+<p>Nobody ever asks me for a software crafter license, or if I know everything about Software craftsmanship about. To be part of the <strong>community</strong>, the only requirement I found is to be motivated to learn and share.</p>
+<p>Over time, I discovered things like what is an open space, what is that of the Software Craftsmanship manifesto, what is code of conduct, what are the values, the practices, etc…</p>
+<p>There is a lot of content on the internet about this topic, other books related like <a href="https://www.amazon.es/Apprenticeship-Patterns-Guidance-Aspiring-Craftsman/dp/0596518382" target="_blank" rel="noopener">Apprenship Patterns</a>, <a href="https://www.amazon.com/gp/product/0132350882/ref=dbs_a_def_rwt_bibl_vppi_i0" target="_blank" rel="noopener">The Clean Coder</a>, or <a href="https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master-ebook/dp/B003GCTQAE/ref=sr_1_2?crid=3AGR57YI2J5DR&keywords=the+pragmatic+programmer&qid=1585255860&s=books&sprefix=the+pragmatic+%2Cstripbooks-intl-ship%2C245&sr=1-2" target="_blank" rel="noopener">The Pragmatic Programmer</a>, which I also recommend.</p>
+<p>Many people recommend <a href="https://www.amazon.com/Software-Craftsman-Professionalism-Pragmatism-Robert/dp/0134052501/ref=sr_1_1?dchild=1&keywords=The+Software+Craftsman&qid=1585172664&sr=8-1" target="_blank" rel="noopener">this</a> book, and nowadays it has become a reference in Software Craftsmanship.</p>
+<h1 id="Why-have-I-decided-to-read-it-now"><a href="#Why-have-I-decided-to-read-it-now" class="headerlink" title="Why have I decided to read it now?"></a>Why have I decided to read it now?</h1><p>I decided to read this book to go deeper into Software Craftsmanship.</p>
+<p>But, not only about content. Sometimes when you feel a little lost, read a behavioral/philosophy book allows you to seat many butterflies that are fluttering in your head. I decided to <strong>stop</strong>, take a step back and <strong>look around</strong>, and ask myself: What I’m doing?</p>
+<p>I think it’s important to do this exercise, once every six months. Because when you are in your daily routine, your daily work, the daily compromise you get focused in the company environment. And this does not let you think with clarity and see the big picture.</p>
+<p>It’s important to look at the sector, the technologies, the practices and things that happened. That’s why you need to <strong>keep in touch</strong> with the community, events, and colleagues around the world…</p>
+<img src="/2020/03/04/software-craftsmanship/DaxHZgPWAAAkK-A.jpg" class="">
+
+<p>Thease are my notes and thoughts about the book:</p>
+<h1 id="1-Software-Development-in-the-Twenty-First-Century"><a href="#1-Software-Development-in-the-Twenty-First-Century" class="headerlink" title="1. Software Development in the Twenty-First Century"></a>1. Software Development in the Twenty-First Century</h1><p>This view of the profession is not much different from what the university showed me few years ago. Bad times for the Software Engineering, big architects telling low paid developers what they have to do through extensive documentation and incomprehensible UML diagrams. I had never work in this environment but is interesting that 30 years before it’s still common to see companies that still have this vision.</p>
+<p>I like the way that Sandro describes the seniority levels. This topic is a lot of controversial everywhere, every company understands a different thing.</p>
+<p>When I started someone told me that the seniority level depends on the years working on the industry, or even the number of programming languages you know. Before that, someone told me that the seniority level are levels of knowledge that you unlock whit the past of the projects in your professional career. And that has a direct relation with your responsibility and salary.</p>
+<p>But as Sandro sais, this is not true. It’s important to keep in mind that seniority levels are not achievements that you unlock and last forever. Skils and technologies change a lot over the years. A 10 years Pascal developer does maybe has nothing to do in a react project vs a 1-year junior React developer and vice-versa. It’s not a rule of three. It <strong>depends</strong> on the required skills/Knowledge by the current project and the current skills/Knowledge of the developers.</p>
+<h1 id="2-Agile"><a href="#2-Agile" class="headerlink" title="2. Agile"></a>2. Agile</h1><p>I like to see how fast the industry has changed over the years. It’s important to put dates and names to the people who started the “Agile revolution” and other movements. I like to see it as a Netflix series, where behind every conference talk or publication from the “main cast” there is a lot of corridors conversations, dinners and discussions behind. All <strong>connected</strong>.</p>
+<img src="/2020/03/04/software-craftsmanship/1_u2-w9jqkQUd8EBSc2wt6mw.jpeg" class="">
+
+<p>On the other hand, I have the feeling that every time I read the Agile manifesto in my apprenticeship road I learn something different. Probably because over time you are part of other parts of projects and see other <strong>values</strong> reflected in your daily work practices.</p>
+<h1 id="3-Software-Craftmanship"><a href="#3-Software-Craftmanship" class="headerlink" title="3. Software Craftmanship"></a>3. Software Craftmanship</h1><p>The metaphor craftmanship has always seemed artificial to me. No one of us was in the middle ages watching how the guilds act like the metaphor sais.</p>
+<p>I believe that metaphors work better when are about daily things. But in this case, do we really need a metaphor? It cannot only be just a different movement?</p>
+<p>If this movement it’s about professionalism, quality, apprenticeship, and communication, why not approach it in another way? Why don’t make people talk about these <strong>values</strong>? For me, it’s very strange to start talking about the middle ages when someone asks me about, <strong>what its</strong> Software Craftmanship?</p>
+<p>Besides that, it’s better than the traditional Software Engineering approach.</p>
+<p>The manifesto:</p>
+<h2 id="Not-only-working-software-but-also-well-crafted-software"><a href="#Not-only-working-software-but-also-well-crafted-software" class="headerlink" title="Not only working software, but also well-crafted software"></a>Not only working software, but also well-crafted software</h2><p>The good software must not only <strong>work</strong>, its important to define what does <strong>well-crafted</strong> software means. What about testability? What about extensibility? What about maintenance? What about usability? It’s important to keep this in mind.</p>
+<h2 id="Not-only-responding-to-change-but-also-steadily-adding-value"><a href="#Not-only-responding-to-change-but-also-steadily-adding-value" class="headerlink" title="Not only responding to change, but also steadily adding value"></a>Not only responding to change, but also steadily adding value</h2><p>Responding to change is the <strong>key</strong> to Agile, but it’s important to increment <strong>value</strong>. Improving technically the software increments his value in the future. Remember that save money and time in the future its <strong>value</strong> too. Remember that we do not have to predict the future, we have to <strong>embrace</strong> it.</p>
+<h2 id="Not-only-individuals-and-interactions-but-also-a-community-of-professionals"><a href="#Not-only-individuals-and-interactions-but-also-a-community-of-professionals" class="headerlink" title="Not only individuals and interactions, but also a community of professionals"></a>Not only individuals and interactions, but also a community of professionals</h2><p>This movement emphasizes that you are <strong>not alone</strong> in your profession, this means that you are in a community of professionals.</p>
+<p>When I started in the Craftmanship, I listen a lot to the word elitism, sect, etc. As a normal law, society subconsciously trends to be away, or attack everything that is different, just because in some primitive way we see it as a threat.</p>
+<p>In the movements, there are a lot of kind of people. But if you only listen to these people, you will never live the movement pure experience, and you will lose all the <strong>good parts</strong>.</p>
+<img src="/2020/03/04/software-craftsmanship/DNPqx1NX0AEK6Sb.jpg" class="">
+
+<p>I have never had a problem in learning from another developer, independently of their experience. On the other hand, I had learned a lot teaching others. In my experience, I had found a very inclusive, diverse and transparent <strong>community</strong>.</p>
+<p>But, despite of being a great professional movement, it’s a people movement, made by persons. And you know, there are many kinds of persons, good and bad, like in every place.</p>
+<h2 id="Not-only-customer-collaboration-but-also-productive-partnerships"><a href="#Not-only-customer-collaboration-but-also-productive-partnerships" class="headerlink" title="Not only customer collaboration, but also productive partnerships"></a>Not only customer collaboration, but also productive partnerships</h2><p>You are a <strong>professional</strong>, you are hired to be professional with your customers, even when you are employed by someone directly, that’s your customer. It’s your <strong>responsibility</strong> to actively contribute to the success of projects, understanding business and questioning requirements.</p>
+<img src="/2020/03/04/software-craftsmanship/3hqjk4hibjl23hbjlkqwdehblk23i.jpg" class="">
+
+<p>Profesional at this point means that its our <strong>obligation</strong> to help our clients to run a software project in the best way possible, they are not experts building software.</p>
+<p> Its not a traditional employer/employee model, you are part of the projects and want to reach the success of the project. “It’s not my money”, “Its, not my problem”, “The business guy contradicts the development team, but it’s him wich pay us”, are common wrong attitudes at this point.</p>
+<p>It’s your responsibility as a professional to find a <strong>good partnership</strong> with your customers/employers.</p>
+<h1 id="4-The-Software-Craftsmanship-Attitude"><a href="#4-The-Software-Craftsmanship-Attitude" class="headerlink" title="4. The Software Craftsmanship Attitude"></a>4. The Software Craftsmanship Attitude</h1><p><strong>Own</strong> your career. Build your apprenticeship journey, not your CV. Only you are responsible as a professional to keep up to date in the current changing world. Pay attention to technologies, books, events, good practices, companies, etc. Never stop discovering, distilling, practicing and sharing.</p>
+<p>Life balance is important, you have to be proactive, you have to <strong>take care</strong> of yourself and those around you, your family. But also, you have to <strong>create time</strong> for your apprenticeship too.</p>
+<p>This chapter transmits to me a selfish attitude about apprenticeship. Wich, it’s ok in many contexts, but I think the attitude attached to a “crafter” it’s much <strong>more</strong> than that.</p>
+<p>When I think in a “crafter” person, I think in a very fidget person about his apprenticeship, It’s <strong>curious</strong>, and does <strong>not have fear</strong> to ask about something that does not understand. And of course, It’s open to share what he knows and to <strong>teach</strong> others. I have seen too many values in common in the people related to the software craftsmanship movement, like honesty, humility, inclusion, diversity, and so on.</p>
+<h1 id="5-Heroes-Goodwil-and-Profesionalims"><a href="#5-Heroes-Goodwil-and-Profesionalims" class="headerlink" title="5. Heroes, Goodwil and Profesionalims"></a>5. Heroes, Goodwil and Profesionalims</h1><p>Some good lessons here that I like are: learn to <strong>say no</strong> when a project decision is going wrong. The importance to explore many different <strong>options</strong> to build a solid and useful answer. Or, the importance to <strong>invest</strong> time in things when you apparently do not have time to, but in the end, not only you had that time but also you <strong>spent</strong> it.</p>
+<img src="/2020/03/04/software-craftsmanship/1_Sx4mmwufLW4BsLiv4kCZdA.jpeg" class="">
+
+<h1 id="6-Working-software"><a href="#6-Working-software" class="headerlink" title="6. Working software"></a>6. Working software</h1><p>The most you can <strong>automate</strong> now to make easy ways for <strong>feedback loops</strong> will exponentially make you save time and money in the future. For example, prepare an easy local testing environment for all newcomers developers, continuous integration, etc.</p>
+<p>Work with legacy code it’s the most common in the industry, so you have to feel <strong>comfortable</strong> with that. Hating the legacy code makes you want to quit for your job every 15 days. If you do not want to feel like that, just <strong>learn</strong> how you can improve the existing and make it better or more comfortable, and <strong>drive</strong> the change. This will make you feel good.</p>
+<p>You have to avoid to be <strong>hostage</strong> from your software. Pay much attention to technical debt. Try to not use solutions who will generate it. The idea is to increase the value of software with quality, not to increase the cost. Try to never include it for future iterations in backlog, because we all know that backlogs are back holes to technical debt, and once there, it will be <strong>never</strong> prioritized.</p>
+<h1 id="7-Technical-Practice"><a href="#7-Technical-Practice" class="headerlink" title="7. Technical Practice"></a>7. Technical Practice</h1><p>Practices are the way of methodologies to bring <strong>values</strong> to projects.</p>
+<img src="/2020/03/04/software-craftsmanship/43hj53g4h53f434c5h435jh34.png" class="">
+
+<p><strong>Pragmatism</strong> is important in software craftmanship cause probably good practices change over time, its important to keep in mind that this ideology implies delivering quality software, the practices to archive this value can evolve. Do <strong>not</strong> be <strong>dogmatic</strong>.</p>
+<h1 id="8-The-long-Road"><a href="#8-The-long-Road" class="headerlink" title="8. The long Road"></a>8. The long Road</h1><p>Prioritize your professional career according to <strong>Autonomy</strong>, <strong>Mastery</strong>, <strong>Purpose</strong>.</p>
+<p>This movement exposes that a big part of your professional happiness or comfort is conditioned to these values. If you focus on these values, you can find a job where you will feel good every day at work. Because you can constantly <strong>improve</strong> your mastery in <strong>learning</strong> and <strong>practicing</strong>. Your daily <strong>contribution</strong> has a <strong>purpose</strong>. And, you can be a professional with autonomy, which means that you can use your <strong>abilities</strong> and your <strong>creativity</strong> at 100% with <strong>no restrictions</strong>.</p>
+<p>But, what about your personal time? What about money? What about prestige?</p>
+<p>They are conditioning, but they are in <strong>second place</strong>. In the end, you want to be happy. Happiness depends on many things, not only when you are at work and also when you arrive at home. You have to evaluate all these aspects based on your needs.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/05/software-development/" rel="prev" title="Software Development">
+      <i class="fa fa-chevron-left"></i> Software Development
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/04/software-development-pyramid/" rel="next" title="The Software Development Pyramid">
+      The Software Development Pyramid <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="David Falcón Naranjo"
+      src="https://secure.gravatar.com/avatar/2627afa6f9274de857e7200029103907">
+  <p class="site-author-name" itemprop="name">David Falcón Naranjo</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/espumita" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;espumita" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Espumitadk" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Espumitadk" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.youtube.com/channel/UC6cHD1p4NfJiOuF5U2NxWEQ" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;channel&#x2F;UC6cHD1p4NfJiOuF5U2NxWEQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-youtube"></i>YouTube</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/davidfalconnaranjo" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;davidfalconnaranjo" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Linkedin</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">David Falcón Naranjo</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/medium-zoom@1/dist/medium-zoom.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://espumita.org/2020/03/04/software-craftsmanship/";
+    this.page.identifier = "2020/03/04/software-craftsmanship/";
+    this.page.title = "The Software Craftsman (Part I)";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://espumita.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
