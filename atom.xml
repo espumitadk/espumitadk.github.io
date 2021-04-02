@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://espumita.org/"/>
-  <updated>2021-03-25T23:51:28.474Z</updated>
+  <updated>2021-04-02T11:34:46.287Z</updated>
   <id>http://espumita.org/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Thoughts on Minimalism</title>
+    <link href="http://espumita.org/2021/04/01/minimalism-thoughts/"/>
+    <id>http://espumita.org/2021/04/01/minimalism-thoughts/</id>
+    <published>2021-04-01T21:57:57.000Z</published>
+    <updated>2021-04-02T11:34:46.287Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;In the last few months, I have been learning about the &lt;strong&gt;minimalism movement&lt;/strong&gt; for a while and I will like to share some thoughts about this.&lt;/p&gt;
+&lt;img src=&quot;/2021/04/01/minimalism-thoughts/3hjk434k3k4jjk53j45j3kjjk5h3k45.jpg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Personal development" scheme="http://espumita.org/categories/Personal-development/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>How to debug HTTPS traffic</title>
