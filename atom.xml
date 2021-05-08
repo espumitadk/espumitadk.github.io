@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://espumita.org/"/>
-  <updated>2021-05-08T13:52:47.924Z</updated>
+  <updated>2021-05-08T17:29:52.010Z</updated>
   <id>http://espumita.org/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Stop sending me this shit</title>
+    <link href="http://espumita.org/2021/05/08/about-resources/"/>
+    <id>http://espumita.org/2021/05/08/about-resources/</id>
+    <published>2021-05-08T15:00:43.000Z</published>
+    <updated>2021-05-08T17:29:52.010Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Some people feel anxiety or stress when many other professionals share a lot of content. Hours and hours of books, posts, videos, courses, and a lot of stuff that you can simply no digest. I would like to share some tips about my “method” about this topic and interesting things that I had found.&lt;/p&gt;
+&lt;img src=&quot;/2021/05/08/about-resources/asdasdkmawmdkl2123lkasj1l23l123ljk12hjkl31l.PNG&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>9 Years of code</title>
