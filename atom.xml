@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://espumita.org/"/>
-  <updated>2021-04-03T08:25:16.069Z</updated>
+  <updated>2021-05-08T12:47:06.786Z</updated>
   <id>http://espumita.org/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>10 Years of code</title>
+    <link href="http://espumita.org/2021/05/07/10-years-of-code/"/>
+    <id>http://espumita.org/2021/05/07/10-years-of-code/</id>
+    <published>2021-05-07T14:34:38.000Z</published>
+    <updated>2021-05-08T12:47:06.786Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;I wrote my first hello world in Java in 2011, at the university. And I want to share few thoughts that I have changed over this years.&lt;/p&gt;
+&lt;img src=&quot;/2021/05/07/10-years-of-code/345hj34h534hjk5k3j45k34534kjh5gh34vh.jpg&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="http://espumita.org/categories/Development/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Thoughts on Minimalism</title>
